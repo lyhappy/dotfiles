@@ -1,0 +1,23 @@
+#gitconfig
+[user]
+    name = luyao
+    email = luyaohappy@gmail.com
+[github]
+    user = lyhappy
+[init]
+    templatedir = ~/.dotfiles/git/templates
+[alias]
+    # list all aliases
+    la = "!git config -l | grep alias | cut -c 7-"
+    delete-merged-branches = "!f() { git checkout --quiet master && git branch --merged | grep --invert-match '\\*' | xargs -n 1 git branch --delete; git checkout --quiet @{-1}; }; f"
+    diff = diff --ignore-space-at-eol -b -w --ignore-blank-lines
+    co = checkout
+    cob = checkout -b
+    s = status --short
+    st = status
+    br = branch -v
+    addnw = "!sh -c 'git diff -U0 -w --no-color \"$@\" | git apply --cached --ignore-whitespace --unidiff-zero -'"
+
+    # rebase commands
+    cont = rebase --continue
+    conf = "!git s | grep ^U"
