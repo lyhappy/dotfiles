@@ -2,3 +2,5 @@
 
 
 source install/link.sh
+
+source install/git.sh
