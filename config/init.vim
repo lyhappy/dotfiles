@@ -16,6 +16,7 @@ abbr tempalte template
 set autoread " detect when a file is changed
 set history=1000
 set textwidth=120
+set cursorline
 set nocompatible
 set autowrite
 set tabstop=2           " 设置制表符(tab键)的宽度
@@ -207,6 +208,7 @@ endif
 
   " {{{ tagbar
     Plug 'majutsushi/tagbar'
+    nnoremap <leader>t :Tagbar<cr>
   " }}}
 
   " {{{ EasyMotion
