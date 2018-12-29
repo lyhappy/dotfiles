@@ -1,0 +1,60 @@
+nnoremap <Space>ww <C-W>w
+nnoremap <Space>wd <C-W>c
+nnoremap <Space>wj <C-W>j
+nnoremap <Space>wk <C-W>k
+nnoremap <Space>wh <C-W>h
+nnoremap <Space>wl <C-W>l
+nnoremap <Space>w= <C-W>=
+nnoremap <Space>ws <C-W>s
+nnoremap <Space>w- <C-W>s
+nnoremap <Space>wv <C-W>v
+nnoremap <Space>w\| <C-W>v
+
+" Go to home and end using capitalized directions
+noremap H ^
+noremap L $
+
+nnoremap ,w :w<cr>
+nnoremap ,q :q<cr>
+nnoremap <silent> ,ev :vsp ~/.ideavimrc<CR>
+nnoremap <silent> ,sv :so ~/.ideavimrc<CR>
+vnoremap ,y "+y
+nnoremap ,u bgUw
+
+nnoremap ," viw<esc>a"<esc>hbi"<esc>lel
+nnoremap ,' viw<esc>a'<esc>hbi'<esc>lel
+
+
+inoremap ,jk <esc>l
+
+inoremap ,n <esc>l
+
+set scrolloff=7
+
+nnoremap - ddp
+nnoremap _ ddkP
+
+nnoremap : ;
+nnoremap ; :
+
+nnoremap <C-e> 2<C-e>
+nnoremap <C-y> 2<C-y>
+nnoremap <C-h> <C-W>h
+nnoremap <C-l> <C-W>l
+nnoremap <C-j> <C-W>j
+nnoremap <C-k> <C-W>k
+
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+set showmode
+set number
+set relativenumber
+set scrolloff=3
+set history=100000
+
+" Press `f` to activate AceJump
+nnoremap ,f :action AceAction<CR>
+" " Press `F` to activate Target Mode
+nnoremap ,F :action AceTargetAction<CR>inoremap 
