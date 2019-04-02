@@ -135,13 +135,15 @@ endif
 
 " {{{ plugin list
   " {{{ dracula scheme
-  Plug 'dracula/vim', {'as': 'dracula' }
+  " Plug 'dracula/vim', {'as': 'dracula' }
   " }}}
   " {{{ vim-airline
   Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
     " let g:airline_theme='atomic'
-    let g:airline_theme='dracula'
+    " let g:airline_theme='dracula'
+    let g:airline_theme='solarized'
+    let g:airline_solarized_bg='dark'
     let g:airline_powerline_fonts = 1
     let g:airline#extensions#tabline#enabled = 1
     let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
@@ -191,7 +193,7 @@ endif
     let g:NERDTreeDirArrowCollapsible = '▾'
     nnoremap <leader>nf :NERDTreeFind<CR>
     nnoremap <F4> :NERDTreeToggle<CR>
-    nnoremap <leader>k :NERDTree<CR>
+    nnoremap <leader>k :NERDTreeToggle<CR>
 
   Plug 'Xuyuanp/nerdtree-git-plugin', { 'on':  'NERDTree' }
     let g:NERDTreeIndicatorMapCustom = {
@@ -405,15 +407,17 @@ call plug#end()
 exec "set listchars=tab:\uBB\uBB,nbsp:~,trail:\uB7"
 set list
 
-colors dracula
+" colors dracula
+set background=dark
+colors solarized
 
-highlight ColorColumn ctermbg=magenta guibg=#2c2d27
+" highlight ColorColumn ctermbg=magenta guibg=#2c2d27
 let &colorcolumn="120"
 
 " set term=screen-256color-italic
-let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
-let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
-set termguicolors
+" let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+" let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+" set termguicolors
 
 hi Normal guibg=NONE ctermbg=NONE
 
