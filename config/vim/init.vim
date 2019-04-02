@@ -211,6 +211,7 @@ endif
   " {{{ tagbar
     Plug 'majutsushi/tagbar'
     nnoremap <leader>t :Tagbar<cr>
+    nnoremap <leader>tj :TagbarOpen j<cr>
   " }}}
 
   " {{{ EasyMotion
