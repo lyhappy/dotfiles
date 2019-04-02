@@ -322,6 +322,9 @@ endif
         nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
     Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
     " }}}
+    " {{{ vim-go
+    Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+    " }}}
 
     " {{{	ctrlp
     " Plug 'kien/ctrlp.vim'
