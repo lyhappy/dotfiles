@@ -94,6 +94,7 @@ nnoremap <leader>eg :terminal eagle.py -f %<cr>
 " }}}
 
 nnoremap <leader>fj :JsonFormat<cr>
+nnoremap <leader>fd :let a=expand("<cword>")<Bar>:echo strftime("%Y %b %d %T", a)<CR>
 
 " Press H to line head
 noremap H ^
