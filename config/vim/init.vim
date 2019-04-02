@@ -537,6 +537,13 @@ endfunction
 call SourceIfExists('.vimrc.local')
 
 
+let g:S = 0  "result in global variable S
+function! Sum(number)
+  echom a:number
+  let g:S = g:S + a:number
+  return a:number
+endfunction
+
 command! JsonFormat :execute '%!python -m json.tool'
             \ | :execute '%!python -c "import re,sys;sys.stdout.write(re.sub(r\"\\\u[0-9a-f]{4}\", lambda m:m.group().decode(\"unicode_escape\").encode(\"utf-8\"), sys.stdin.read()))"'
             \ | :set ft=json
