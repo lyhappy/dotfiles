@@ -19,9 +19,9 @@ set textwidth=120
 set cursorline
 set nocompatible
 set autowrite
-set tabstop=2           " 设置制表符(tab键)的宽度
-set softtabstop=2       " 设置软制表符的宽度
-set shiftwidth=2        " (自动) 缩进使用的4个空格
+set tabstop=4           " 设置制表符(tab键)的宽度
+set softtabstop=4       " 设置软制表符的宽度
+set shiftwidth=4        " (自动) 缩进使用的4个空格
 set expandtab           " 将tab键展开为空格
 set hlsearch            " 高亮搜索匹配结果
 set incsearch           " 输入字符串就显示匹配点
@@ -56,11 +56,12 @@ filetype plugin on
 " 缩进规则 expendtab {{{
 augroup expandtab
   autocmd filetype make set noexpandtab
-  autocmd FileType * set ts=4 sts=4 sw=4 | set expandtab
+  autocmd FileType php set ts=4 sts=4 sw=4 | set expandtab
   autocmd FileType python set ts=4 | set sw=4 | set expandtab
   autocmd Filetype html setlocal ts=4 sts=4 sw=4 | set expandtab
   autocmd Filetype javascript setlocal ts=2 sts=2 sw=2 | set expandtab
-  autocmd Filetype vue setlocal ts=4 sts=4 sw=4 | set expandtab
+  autocmd Filetype vue setlocal ts=2 sts=2 sw=2 | set expandtab
+  autocmd Filetype go setlocal nolist
 augroup END
 " }}}
 
