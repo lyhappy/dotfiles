@@ -195,7 +195,7 @@ endif
     let g:NERDTreeDirArrowCollapsible = '▾'
     nnoremap <leader>nf :NERDTreeFind<CR>
     nnoremap <F4> :NERDTreeToggle<CR>
-    nnoremap <leader>k :NERDTreeToggle<CR>
+    nnoremap <leader>k :NERDTree<CR>
 
   Plug 'Xuyuanp/nerdtree-git-plugin', { 'on':  'NERDTree' }
     let g:NERDTreeIndicatorMapCustom = {
