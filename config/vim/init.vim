@@ -31,7 +31,8 @@ set autoindent
 set number              " 显示行号
 set relativenumber
 set scrolloff=7         " 光标不触底
-set fencs=utf-8,gbk     " 打开文件时，同时尝试utf-8和gbk编码
+" set fencs=utf-8,gbk,cp936     " 打开文件时，同时尝试utf-8和gbk编码
+set fencs=utf-8,gb2312,gb18030,gbk,ucs-bom,cp936,latin1
 set encoding=utf-8
 set laststatus=2
 set ruler
