@@ -6,6 +6,8 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 " }}}
 
+call has('python3')
+
 call plug#begin('~/.config/vim/plugged')
 
 " General {{{
@@ -71,8 +73,8 @@ nnoremap <silent> <leader>ev :vsp $MYVIMRC<CR>
 " 按,sv重载配置文件
 nnoremap <silent> <leader>sv :so $MYVIMRC<CR>
 " 使用,w保存文件
-nnoremap <leader>w :w<CR>
-inoremap <leader>w <esc>:w<CR>
+nnoremap <silent> <leader>w :w<CR>
+inoremap <silent> <leader>w <esc>:w<CR>
 " 使用,q关闭窗口
 nnoremap <leader>q :q<CR>
 inoremap <leader>q <esc>:q<CR>
@@ -328,6 +330,7 @@ endif
     " }}}
     " {{{ vim-go
     Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+        let g:go_def_mode = 'gopls'
     " }}}
 
     " {{{	ctrlp
