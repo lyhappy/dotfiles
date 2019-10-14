@@ -78,6 +78,7 @@ inoremap <silent> <leader>w <esc>:w<CR>
 " 使用,q关闭窗口
 nnoremap <leader>q :q<CR>
 inoremap <leader>q <esc>:q<CR>
+nnoremap <leader>x :bd %<CR>
 
 " normal模式下, 使用,h进入或退出16进制模式
 nnoremap <leader>h :call HexModelToggle()<CR>
