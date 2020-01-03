@@ -45,6 +45,7 @@ set whichwrap=b,s,<,>,[,]   " 光标从行首和行末时可以跳到另一行�
 set showcmd             " 命令行显示输入的命令
 set showmode            " 命令行显示vim当前模式
 syntax enable
+set foldmethod=syntax
 
 " }}}
 
@@ -57,7 +58,7 @@ filetype plugin on
 
 " 缩进规则 expendtab {{{
 augroup expandtab
-  autocmd filetype make set noexpandtab
+  " autocmd filetype make set noexpandtab
   autocmd FileType php set ts=4 sts=4 sw=4 | set expandtab
   autocmd FileType python set ts=4 | set sw=4 | set expandtab
   autocmd Filetype html setlocal ts=4 sts=4 sw=4 | set expandtab
@@ -73,7 +74,7 @@ nnoremap <silent> <leader>ev :vsp $MYVIMRC<CR>
 " 按,sv重载配置文件
 nnoremap <silent> <leader>sv :so $MYVIMRC<CR>
 " 使用,w保存文件
-nnoremap <silent> <leader>w :w<CR>
+nnoremap <silent> <leader>w <esc>:w<CR>
 inoremap <silent> <leader>w <esc>:w<CR>
 " 使用,q关闭窗口
 nnoremap <leader>q :q<CR>
@@ -81,7 +82,11 @@ inoremap <leader>q <esc>:q<CR>
 nnoremap <leader>x :bd %<CR>
 
 " normal模式下, 使用,h进入或退出16进制模式
-nnoremap <leader>h :call HexModelToggle()<CR>
+" nnoremap <leader>h :call HexModelToggle()<CR>
+" hex read
+nnoremap <leader>hr :%!xxd<cr> :set filetype=xxd<cr>
+" hex write
+nnoremap <leader>hw :%!xxd -r<cr> :set binary<cr> :set filetype=<cr>
 
 " 查看当前打开文件的git log
 nnoremap <leader>gl :call GitLog()<CR>
@@ -128,7 +133,8 @@ nnoremap : ;
 
 inoremap jk <esc>
 
-nnoremap <leader>yd :let a=expand("<cword>")<Bar>exec '!echo ' .a. '&dic ck ' .a<CR>
+" nnoremap <leader>yd :let a=expand("<cword>")<Bar>exec '!echo ' .a. '&dic ck ' .a<CR>
+nnoremap <leader>yd :let a=expand("<cword>")<Bar>call Youdao1(a)<CR>
 
 " 复制选中区到系统剪切板中
 if has('mac')
@@ -138,18 +144,25 @@ else
   cnoremap <c-v> <c-r>9
 endif
 
+augroup filetype
+    au! BufRead, BufNewFile *.dis set filetype=mixed
+augroup END
+
+au! Syntax mixed so ~/.vim/syntax/cmix.vim
+
 " {{{ plugin list
   " {{{ dracula scheme
-  " Plug 'dracula/vim', {'as': 'dracula' }
+  Plug 'dracula/vim', {'as': 'dracula' }
   " }}}
   " {{{ vim-airline
   Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
     " let g:airline_theme='atomic'
-    " let g:airline_theme='dracula'
-    let g:airline_theme='solarized'
-    let g:airline_solarized_bg='dark'
-    let g:airline_powerline_fonts = 1
+    " let g:airline_theme='molokai'
+    let g:airline_theme='dracula'
+    " let g:airline_theme='solarized'
+    " let g:airline_solarized_bg='dark'
+    let g:airline_powerline_fonts = 0
     let g:airline#extensions#tabline#enabled = 1
     let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
     let g:airline#extensions#tabline#show_tab_nr = 1
@@ -165,9 +178,9 @@ endif
     let g:ale_set_highlights = 0
     let g:ale_change_sign_column_color = 0
     let g:ale_sign_column_always = 1
-    let g:ale_sign_error = '✖'
+    let g:ale_sign_error = '✘'
     let g:ale_sign_warning = '⚠'
-    let g:ale_echo_msg_error_str = '✖'
+    let g:ale_echo_msg_error_str = '✘'
     let g:ale_echo_msg_warning_str = '⚠'
     let g:ale_echo_msg_format = '%severity% %s% [%linter%% code%]'
     let g:ale_linters = {
@@ -263,9 +276,9 @@ endif
     " }}}
     " {{{ snippet
     Plug 'SirVer/ultisnips'
-    " Plug 'MarcWeber/vim-addon-mw-utils'
-    " Plug 'tomtom/tlib_vim'
-    " Plug 'garbas/vim-snipmate'
+    Plug 'MarcWeber/vim-addon-mw-utils'
+    Plug 'tomtom/tlib_vim'
+    Plug 'garbas/vim-snipmate'
       let g:UltiSnipsEditSplit = 'vertical'
       let g:UltiSnipsListSnippets = '<s-tab>'
 
@@ -280,7 +293,7 @@ endif
         " - status: 'installed', 'updated', or 'unchanged'
         " - force:  set on PlugInstall! or PlugUpdate!
         if a:info.status == 'installed' || a:info.force
-            !./install.py --java-completer --go-completer --ts-completer --clangd-completer
+            !python3 ./install.py --java-completer --go-completer --ts-completer --clangd-completer
         endif
     endfunction
     Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
@@ -328,6 +341,7 @@ endif
 
         " 跳转到定义处
         nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+        nnoremap <leader>d :YcmCompleter GetDoc<CR>
     " Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
     " }}}
     " {{{ vim-go
@@ -354,7 +368,11 @@ endif
     "     let g:miniBufExplorerMoreThanOne=0
     " }}}
     " {{{ goyo for markdown
+    Plug 'iamcco/markdown-preview.vim', { 'for': 'markdown' }
     Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
+    Plug 'junegunn/limelight.vim'
+        let g:limelight_conceal_ctermfg = 'gray'
+        let g:limelight_conceal_ctermfg = 240
     " !autocmd! User goyo.vim echom 'Goyo is now loaded!'
     " }}}
     " {{ gitgutter
@@ -370,6 +388,7 @@ endif
       nnoremap <leader>gl :Glog<cr>
       nnoremap <leader>gb :Gblame<cr>
       nnoremap <leader>gd :Gvdiff<cr>
+    Plug 'junegunn/gv.vim'
     " }}}
     " {{{ fzf
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -403,22 +422,30 @@ endif
     " gtags
     let GtagsCscope_Auto_Load = 1
     let CtagsCscope_Auto_Map = 1
-    let GtagsCscope_Quiet = 1
+    let GtagsCscope_Quiet = 0
     "}}}
+    Plug 'vim/killersheep'
     "{{{ for latex
     Plug 'lervag/vimtex', { 'for' : 'tex' }
     "}}}
+    "{{{ rust-lang
+    Plug 'rust-lang/rust.vim'
+    "}}}
+    Plug 'itchyny/calendar.vim'
+    Plug 'SkyLeach/pudb.vim'
+    " Plug 'KangOl/vim-pudb'
 " }}}
 call plug#end()
 
 exec "set listchars=tab:\uBB\uBB,nbsp:~,trail:\uB7"
 set list
 
-" colors dracula
-set background=dark
-colors solarized
+colors dracula
+" set background=dark
+" set background=light
+" colors desert
 
-" highlight ColorColumn ctermbg=magenta guibg=#2c2d27
+" highlight ColorColumn ctermbg=Black guibg=#2c2d27
 let &colorcolumn="120"
 
 " set term=screen-256color-italic
@@ -426,7 +453,7 @@ let &colorcolumn="120"
 " let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
 " set termguicolors
 
-hi Normal guibg=NONE ctermbg=NONE
+" hi Normal guibg=NONE ctermbg=NONE
 
 " {{{ 注释折叠
 augroup ft_vim
@@ -436,18 +463,18 @@ augroup END
 " }}}
 
 " {{{ Hex Model Toggle
-if !exists('g:_hex_model_toggle')
-  let g:_hex_model_toggle=0
-endif
-function! HexModelToggle()
-  if g:_hex_model_toggle == 0
-    let g:_hex_model_toggle=1
-    execute ":%!xxd<cr>"
-  else
-    let g:_hex_model_toggle=0
-    execute ":%!xxd -r<cr>"
-  endif
-endfunction
+" if !exists('g:_hex_model_toggle')
+"   let g:_hex_model_toggle=0
+" endif
+" function! HexModelToggle()
+"   if g:_hex_model_toggle == 0
+"     let g:_hex_model_toggle=1
+"     execute ":%!xxd<cr>"
+"   else
+"     let g:_hex_model_toggle=0
+"     execute ":%!xxd -r<cr>"
+"   endif
+" endfunction
 " }}}
 
 " {{{ Git log
@@ -482,7 +509,7 @@ endfunc
 " }}}
 
 " {{{ for gtags
-au VimEnter * cs add GTAGS
+au VimEnter *.[ch] cs add GTAGS
 " au VimEnter * call VimEnterCallback()
 au BufAdd *.[ch] call FindGtags(expand('<afile>'))
 au BufWritePost *.[ch] call UpdateGtags(expand('<afile>'))
@@ -562,3 +589,5 @@ command! JsonFormat :execute '%!python -m json.tool'
             \ | :execute '%!python -c "import re,sys;sys.stdout.write(re.sub(r\"\\\u[0-9a-f]{4}\", lambda m:m.group().decode(\"unicode_escape\").encode(\"utf-8\"), sys.stdin.read()))"'
             \ | :set ft=json
             \ | :1
+
+source ~/.vim/plugin/youdao.vim
