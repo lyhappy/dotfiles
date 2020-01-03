@@ -1,0 +1,37 @@
+Plug 'dracula/vim', {'as': 'dracula' }
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'w0rp/ale'
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'Xuyuanp/nerdtree-git-plugin', { 'on':  'NERDTree' }
+Plug 'majutsushi/tagbar'
+Plug 'easymotion/vim-easymotion'
+Plug 'scrooloose/nerdcommenter'
+Plug 'pangloss/vim-javascript'
+Plug 'marijnh/tern_for_vim', {'do': 'npm install'}
+Plug 'isRuslan/vim-es6'
+Plug 'posva/vim-vue'
+Plug 'SirVer/ultisnips'
+Plug 'MarcWeber/vim-addon-mw-utils'
+Plug 'tomtom/tlib_vim'
+Plug 'garbas/vim-snipmate'
+Plug 'honza/vim-snippets'
+Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'mileszs/ack.vim'
+Plug 'iamcco/markdown-preview.vim', { 'for': 'markdown' }
+Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
+Plug 'junegunn/limelight.vim'
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
+Plug 'junegunn/gv.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'vim-vdebug/vdebug', { 'for': 'python' }
+Plug 'dhruvasagar/vim-table-mode'
+Plug 'jceb/vim-orgmode'
+Plug 'vim-scripts/gtags.vim'
+Plug 'vim/killersheep'
+Plug 'lervag/vimtex', { 'for' : 'tex' }
+Plug 'rust-lang/rust.vim'
+Plug 'itchyny/calendar.vim'
+Plug 'SkyLeach/pudb.vim'
