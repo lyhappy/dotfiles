@@ -59,3 +59,20 @@ for file in "${VIMFILES[@]}"; do
         ln -s "${VALUE}" "${KEY}"
     fi
 done
+
+# create emacs symlinks
+echo -e "\\n\\nCreating emacs symlinks"
+echo "=============================="
+EMACSFILES=("$HOME/.emacs.d/init.el:$DOTFILES/config/emacs/init.el"
+            "$HOME/.emacs.d/myinit.org:$DOTFILES/config/emacs/myinit.org")
+
+for file in "${EMACSFILES[@]}"; do
+    KEY=${file%%:*}
+    VALUE=${file#*:}
+    if [ -e "${KEY}" ]; then
+        echo "${KEY} alread exists.. skipping."
+    else
+        echo "Creating symlink for $KEY"
+        ln -s "${VALUE}" "${KEY}"
+    fi
+done
