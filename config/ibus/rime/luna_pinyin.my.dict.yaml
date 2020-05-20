@@ -1,0 +1,16 @@
+---
+name: luna_pinyin.my
+version: "1.0"
+sort: by_weight
+use_preset_vocabulary: true
+# 此处为扩充词库（基本）默认链接载入的词库
+import_tables: 
+  - luna_pinyin
+  - luna_pinyin.cn_en
+  - luna_pinyin.extended
+  - luna_pinyin.hanyu
+  - luna_pinyin.poetry
+  - luna_pinyin.emoji
+...
+
+# 自定义词语

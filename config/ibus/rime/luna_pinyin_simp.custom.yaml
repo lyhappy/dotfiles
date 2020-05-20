@@ -1,0 +1,4 @@
+# luna_pinyin_simp.custom.yaml
+patch:
+# 指定自定义词库位置
+  "translator/dictionary": luna_pinyin.my
