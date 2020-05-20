@@ -1,8 +1,8 @@
 # set -g default-command 'login-shell'
 
 # tmux display things in 256 colors
-set -g default-terminal 'tmux-256color-italic'
-set-option -ga terminal-overrides  ',tmux-256color-italics:Tc'
+# set -g default-terminal 'tmux-256color-italic'
+# set-option -ga terminal-overrides  ',tmux-256color-italics:Tc'
 # set -as terminal-overrides ',xterm*:Tc:sitm=\E[3m'
 
 set -g history-limit 20000
@@ -78,4 +78,7 @@ bind -Tcopy-mode-vi 'y' send -X copy-pipe-and-cancel "tmux save-buffer - | reatt
 bind C-c run "tmux save-buffer - | reattach-to-user-namespace pbcopy"
 bind C-v run "tmux set-buffer $(reattach-to-user-namespace pbpaste); tmux paste-buffer"
 
+bind C-e run "`export testEnv=test`"
+set -g default-terminal 'tmux-256color-italics'
+set-option -ga terminal-overrides ",tmux-256color-italics:Tc"
 source ~/code/dotfiles/tmux/theme.sh
