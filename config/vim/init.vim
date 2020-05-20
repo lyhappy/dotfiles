@@ -45,7 +45,7 @@ set whichwrap=b,s,<,>,[,]   " 光标从行首和行末时可以跳到另一行�
 set showcmd             " 命令行显示输入的命令
 set showmode            " 命令行显示vim当前模式
 syntax enable
-set foldmethod=syntax
+" set foldmethod=syntax
 
 " }}}
 
@@ -101,11 +101,16 @@ nnoremap <leader>u viwgU
 nnoremap <leader>l viwgu
 
 nnoremap <leader>eg :terminal eagle.py -f %<cr>
-" }}}
 
 nnoremap <leader>fj :JsonFormat<cr>
 nnoremap <leader>fd :let a=expand("<cword>")<Bar>:echo strftime("%Y %b %d %T", a)<CR>
 
+" nnoremap <leader>yd :let a=expand("<cword>")<Bar>exec '!echo ' .a. '&dic ck ' .a<CR>
+nnoremap <leader>yd :let a=expand("<cword>")<Bar>call Youdao1(a)<CR>
+
+" }}}
+
+" {{{ 我的按键习惯映射
 " Press H to line head
 noremap H ^
 " Press L to line end
@@ -133,8 +138,9 @@ nnoremap : ;
 
 inoremap jk <esc>
 
-" nnoremap <leader>yd :let a=expand("<cword>")<Bar>exec '!echo ' .a. '&dic ck ' .a<CR>
-nnoremap <leader>yd :let a=expand("<cword>")<Bar>call Youdao1(a)<CR>
+nnoremap g= ggVG= 
+" }}}
+
 
 " 复制选中区到系统剪切板中
 if has('mac')
@@ -159,10 +165,10 @@ au! Syntax mixed so ~/.vim/syntax/cmix.vim
   Plug 'vim-airline/vim-airline-themes'
     " let g:airline_theme='atomic'
     " let g:airline_theme='molokai'
-    let g:airline_theme='dracula'
-    " let g:airline_theme='solarized'
-    " let g:airline_solarized_bg='dark'
-    let g:airline_powerline_fonts = 0
+    " let g:airline_theme='dracula'
+    let g:airline_theme='solarized'
+    let g:airline_solarized_bg='dark'
+    let g:airline_powerline_fonts = 1
     let g:airline#extensions#tabline#enabled = 1
     let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
     let g:airline#extensions#tabline#show_tab_nr = 1
@@ -185,7 +191,7 @@ au! Syntax mixed so ~/.vim/syntax/cmix.vim
     let g:ale_echo_msg_format = '%severity% %s% [%linter%% code%]'
     let g:ale_linters = {
           \ 'javascript': ['eslint', 'flow', 'flow-language-server'],
-          \ 'vue': ['eslinit']
+          \ 'vue': ['eslint']
           \ }
     let g:ale_fixers = {
           \ 'javascript': ['prettier', 'eslint'],
@@ -196,6 +202,9 @@ au! Syntax mixed so ~/.vim/syntax/cmix.vim
           \ }
     let g:ale_javascript_prettier_use_local_config = 1
     let g:ale_fix_on_save = 0
+    let g:ale_java_javac_executable = ''
+    let g:ale_java_eclipselsp_executable = "/usr/bin/java -javaagent:${HOME}/.m2/repository/org/projectlombok/lombok/1.18.10/lombok-1.18.10.jar"
+    let g:ale_java_eclipselsp_path = "~/bin/eclipse.jdt.ls"
     nnoremap <silent> <leader>aj :ALENext<cr>
     nnoremap <silent> <leader>ak :ALEPrevious<cr>
   " }}}
@@ -258,7 +267,7 @@ au! Syntax mixed so ~/.vim/syntax/cmix.vim
       " Enable trimming of trailing whitespace when uncommenting
       let g:NERDTrimTrailingWhitespace = 1
     " }}}
-    " Plugin for fe
+    " {{{ Plugins for FE
     " {{{ vim-javascript
     Plug 'pangloss/vim-javascript'
         let javascript_enable_domhtmlcss = 1
@@ -274,13 +283,20 @@ au! Syntax mixed so ~/.vim/syntax/cmix.vim
         au BufNewFile,BufRead *.vue setf vue
         autocmd FileType vue syntax sync fromstart
     " }}}
+    " }}}
+    " {{{ supertab
+    " Plug 'ervandew/supertab'
+    " }}}
     " {{{ snippet
     Plug 'SirVer/ultisnips'
-    Plug 'MarcWeber/vim-addon-mw-utils'
-    Plug 'tomtom/tlib_vim'
-    Plug 'garbas/vim-snipmate'
-      let g:UltiSnipsEditSplit = 'vertical'
-      let g:UltiSnipsListSnippets = '<s-tab>'
+    " let g:UltiSnipsExpandTrigger = "<tab>"
+    " let g:UltiSnipsJumpForwardTrigger = "<tab>"
+    " let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+    " Plug 'MarcWeber/vim-addon-mw-utils'
+    " Plug 'tomtom/tlib_vim'
+    " Plug 'garbas/vim-snipmate'
+    "   let g:UltiSnipsEditSplit = 'vertical'
+    "   let g:UltiSnipsListSnippets = '<s-tab>'
 
     " Optional:
     Plug 'honza/vim-snippets'
@@ -315,9 +331,10 @@ au! Syntax mixed so ~/.vim/syntax/cmix.vim
 
         "youcompleteme  默认tab  s-tab 和自动补全冲突
         "let g:ycm_key_list_select_completion=['<c-n>']
-        let g:ycm_key_list_select_completion = ['<Down>']
-        "let g:ycm_key_list_previous_completion=['<c-p>']
-        let g:ycm_key_list_previous_completion = ['<Up>']
+        let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+        let g:ycm_key_list_previous_completion= ['<C-p>', '<Up>']
+        let g:SuperTabDefaultCompletionType = '<C-n>'
+        " let g:ycm_key_list_previous_completion = ['<Up>']
         let g:ycm_confirm_extra_conf=0 "关闭加载.ycm_extra_conf.py提示
         let g:ycm_global_ycm_extra_conf="~/.config/vim/plugged/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py"
 
@@ -342,6 +359,8 @@ au! Syntax mixed so ~/.vim/syntax/cmix.vim
         " 跳转到定义处
         nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
         nnoremap <leader>d :YcmCompleter GetDoc<CR>
+        nnoremap <leader>f :YcmCompleter FixIt<CR>
+        nnoremap <leader>yg :YcmCompleter GoTo<CR>
     " Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
     " }}}
     " {{{ vim-go
@@ -369,13 +388,15 @@ au! Syntax mixed so ~/.vim/syntax/cmix.vim
     " }}}
     " {{{ goyo for markdown
     Plug 'iamcco/markdown-preview.vim', { 'for': 'markdown' }
+    Plug 'mzlogin/vim-markdown-toc'
     Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
     Plug 'junegunn/limelight.vim'
         let g:limelight_conceal_ctermfg = 'gray'
         let g:limelight_conceal_ctermfg = 240
     " !autocmd! User goyo.vim echom 'Goyo is now loaded!'
     " }}}
-    " {{ gitgutter
+    " {{{ Plugins for git
+    " {{{ gitgutter
     Plug 'airblade/vim-gitgutter'
       nnoremap <leader>gg :GitGutter<CR>
     " }}}
@@ -389,6 +410,7 @@ au! Syntax mixed so ~/.vim/syntax/cmix.vim
       nnoremap <leader>gb :Gblame<cr>
       nnoremap <leader>gd :Gvdiff<cr>
     Plug 'junegunn/gv.vim'
+    " }}}
     " }}}
     " {{{ fzf
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -434,18 +456,21 @@ au! Syntax mixed so ~/.vim/syntax/cmix.vim
     Plug 'itchyny/calendar.vim'
     Plug 'SkyLeach/pudb.vim'
     " Plug 'KangOl/vim-pudb'
+    Plug 'nicwest/vim-http'
 " }}}
 call plug#end()
 
-exec "set listchars=tab:\uBB\uBB,nbsp:~,trail:\uB7"
-set list
+" exec "set listchars=tab:\uBB\uBB,nbsp:~,trail:\uB7"
+" set list
 
-colors dracula
-" set background=dark
+" colors dracula
 " set background=light
-" colors desert
+colors solarized
+set background=dark
+highlight clear SignColumn
+call gitgutter#highlight#define_highlights()
 
-" highlight ColorColumn ctermbg=Black guibg=#2c2d27
+highlight ColorColumn ctermbg=Black guibg=#2c2d27
 let &colorcolumn="120"
 
 " set term=screen-256color-italic
