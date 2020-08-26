@@ -1,3 +1,12 @@
+""""""""""""""""""""""""""""""""
+"
+"         (_)                   
+"   __   ___ _ __ ___  _ __ ___ 
+"   \ \ / / | '_ ` _ \| '__/ __|
+"    \ V /| | | | | | | | | (__ 
+"     \_/ |_|_| |_| |_|_|  \___|
+"
+""""""""""""""""""""""""""""""""
 " {{{ use vim-plug manage plugins
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
@@ -457,6 +466,26 @@ au! Syntax mixed so ~/.vim/syntax/cmix.vim
     Plug 'SkyLeach/pudb.vim'
     " Plug 'KangOl/vim-pudb'
     Plug 'nicwest/vim-http'
+    " {{{ vimwiki
+    Plug 'vimwiki/vimwiki'
+        let wiki_worknotes = {}
+        let wiki_worknotes.path = '~/workspace/worknotes/'
+        let wiki_worknotes.syntax = 'markdown'
+        let wiki_worknotes.ext = '.md'
+        let wiki_worknotes.index = 'README'
+        let wiki_worknotes.path_html = '~/workspace/worknotes/html/'
+        let wiki_worknotes.template_path = '~/workspace/worknotes/templates/'
+        let wiki_worknotes.template_default = 'default'
+        let wiki_worknotes.template_ext = '.tpl'
+        let wiki_worknotes.custom_wiki2html = 'vimwiki_markdown'
+
+        let wiki_studynotes = {}
+        let wiki_studynotes.path = '~/vimwiki/'
+
+        let g:vimwiki_list = [wiki_worknotes, wiki_studynotes]
+        nnoremap <leader>wtl :Ack -Q "[ ]" . -r<cr>
+        let g:vimwiki_valid_html_tags = 'b,i,s,u,sub,sup,kbd,br,hr, pre, script'
+    " }}}
 " }}}
 call plug#end()
 
