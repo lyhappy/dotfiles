@@ -139,6 +139,9 @@ call plug#begin('~/.config/vim/plugged')
     nnoremap <leader>gd :Gvdiff<cr>
   Plug 'junegunn/gv.vim'
 
+" -------- language support ---------
+  Plug 'fatih/vim-go'
+
 call plug#end()
 
 filetype plugin indent on
