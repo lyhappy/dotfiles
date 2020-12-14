@@ -72,6 +72,8 @@ call plug#begin('~/.config/vim/plugged')
   Plug 'junegunn/fzf.vim'
   Plug 'itchyny/calendar.vim'
   Plug 'nicwest/vim-http'
+  Plug 'preservim/nerdcommenter'
+    let g:NERDSpaceDelims=1
 
 " -------- FE --------
   Plug 'posva/vim-vue'
