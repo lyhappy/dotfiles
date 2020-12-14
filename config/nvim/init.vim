@@ -59,6 +59,9 @@ call plug#begin('~/.config/vim/plugged')
 
 " -------- Productivity --------
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    inoremap <M-f> :CocFix<cr>
+    nnoremap <M-f> :CocFix<cr>
+    nnoremap <M-a> :CocAction<cr>
   Plug 'mileszs/ack.vim'
   Plug 'majutsushi/tagbar'
     nnoremap <leader>t :Tagbar<cr>
@@ -220,6 +223,19 @@ augroup ft_vim
   autocmd!
   autocmd FileType vim setlocal foldmethod=marker
 augroup END
+
+"""""""""""""""""""""""""""""""""""""""""""
+" => coc.nvim
+"""""""""""""""""""""""""""""""""""""""""""
+
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nmap <silent> gc <Plug>(coc-action-documentSymbols)
 
 " {{{ 定义函数AutoSetFileHead，自动插入文件头
 autocmd BufNewFile *.sh,*.py exec ":call AutoSetFileHead()"
