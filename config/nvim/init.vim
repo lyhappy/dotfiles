@@ -68,7 +68,8 @@ call plug#begin('~/.config/vim/plugged')
     nnoremap <leader>tj :TagbarOpen j<cr>
   Plug 'easymotion/vim-easymotion'
     let g:EasyMotion_leader_key = '\'
-  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim'
   Plug 'itchyny/calendar.vim'
   Plug 'nicwest/vim-http'
 
