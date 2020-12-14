@@ -171,14 +171,17 @@ syntax enable
 " => expandtab adn tabstop
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 augroup expandtab
-  autocmd FileType php set ts=4 sts=4 sw=4 | set expandtab
-  autocmd FileType python set ts=4 sts=4 sw=4 | set expandtab
+  autocmd FileType * setlocal ts=4 sts=4 sw=4 | set noexpandtab
+  autocmd FileType php setlocal ts=4 sts=4 sw=4 | set expandtab
+  autocmd FileType python setlocal ts=4 sts=4 sw=4 nolist | set expandtab
   autocmd Filetype html setlocal ts=4 sts=4 sw=4 | set expandtab
   autocmd Filetype javascript setlocal ts=2 sts=2 sw=2 | set expandtab
+  autocmd Filetype json setlocal ts=2 sts=2 sw=2 | set expandtab
   autocmd Filetype vue setlocal ts=2 sts=2 sw=2 | set expandtab
   autocmd Filetype vim setlocal ts=2 sts=2 sw=2 | set expandtab
   autocmd Filetype markdown setlocal ts=2 sts=2 sw=2 | set expandtab
-  autocmd Filetype go setlocal nolist
+  autocmd Filetype go setlocal ts=4 sts=4 sw=4 nolist
+  autocmd FileType java setlocal ts=4 sts=4 sw=4 | set noexpandtab nolist
 augroup END
 
 
