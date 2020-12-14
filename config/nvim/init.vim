@@ -40,10 +40,11 @@ call plug#begin('~/.config/vim/plugged')
 
 " -------- File Management --------
   Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-  nnoremap <leader>nf :NERDTreeFind<CR>
-  nnoremap <leader>k :NERDTree<CR>
+    nnoremap <leader>nf :NERDTreeFind<CR>
+    nnoremap <F2> :NERDTree<CR>
+    let NERDTreeShowBookmarks=1
   Plug 'Xuyuanp/nerdtree-git-plugin', { 'on':  'NERDTree' }
-  let g:NERDTreeIndicatorMapCustom = {
+    let g:NERDTreeIndicatorMapCustom = {
         \ "Modified"  : "✹",
         \ "Staged"    : "✚",
         \ "Untracked" : "✭",
@@ -63,8 +64,9 @@ call plug#begin('~/.config/vim/plugged')
     nnoremap <M-f> :CocFix<cr>
     nnoremap <M-a> :CocAction<cr>
   Plug 'mileszs/ack.vim'
+    nnoremap <leader>a :Ack<space>
   Plug 'majutsushi/tagbar'
-    nnoremap <leader>t :Tagbar<cr>
+    nnoremap <F3> :Tagbar<cr>
     nnoremap <leader>tj :TagbarOpen j<cr>
   Plug 'easymotion/vim-easymotion'
     let g:EasyMotion_leader_key = '\'
