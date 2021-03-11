@@ -174,7 +174,9 @@ syntax enable
 " => expandtab adn tabstop
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 augroup expandtab
-  autocmd FileType * setlocal ts=4 sts=4 sw=4 | set noexpandtab
+  autocmd FileType * setlocal ts=4 sts=4 sw=4 | set noexpandtab nolist
+  autocmd FileType make setlocal ts=4 sts=4 sw=4 | set noexpandtab list
+  autocmd FileType cpp setlocal ts=2 sts=2 sw=2 | set expandtab
   autocmd FileType php setlocal ts=4 sts=4 sw=4 | set expandtab
   autocmd FileType python setlocal ts=4 sts=4 sw=4 nolist | set expandtab
   autocmd Filetype html setlocal ts=4 sts=4 sw=4 | set expandtab
@@ -185,6 +187,7 @@ augroup expandtab
   autocmd Filetype markdown setlocal ts=2 sts=2 sw=2 | set expandtab
   autocmd Filetype go setlocal ts=4 sts=4 sw=4 nolist
   autocmd FileType java setlocal ts=4 sts=4 sw=4 | set noexpandtab nolist
+  autocmd FileType scala setlocal ts=2 sts=2 sw=2 | set noexpandtab nolist
 augroup END
 
 
