@@ -77,6 +77,9 @@ call plug#begin('~/.config/vim/plugged')
   Plug 'preservim/nerdcommenter'
     let g:NERDSpaceDelims=1
 
+  " use snippets with coc-snippets
+  Plug 'honza/vim-snippets'
+
 " -------- FE --------
   Plug 'posva/vim-vue'
     au BufNewFile,BufRead *.vue setf vue
@@ -238,6 +241,19 @@ augroup END
 """""""""""""""""""""""""""""""""""""""""""
 " => coc.nvim
 """""""""""""""""""""""""""""""""""""""""""
+
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+let g:coc_snippet_next = '<tab>'
 
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
