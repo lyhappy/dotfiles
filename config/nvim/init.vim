@@ -37,6 +37,7 @@ call plug#begin('~/.config/vim/plugged')
     let g:airline#extensions#tabline#fnamecollapse = 2
     let g:airline#extensions#tabline#buffer_idx_mode = 1
     set laststatus=2
+  Plug 'ryanoasis/vim-devicons'
 
 " -------- File Management --------
   Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
