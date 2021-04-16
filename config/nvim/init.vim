@@ -24,10 +24,10 @@ call plug#begin('~/.config/vim/plugged')
   Plug 'vim-airline/vim-airline-themes'
     " let g:airline_theme='atomic'
     " let g:airline_theme='molokai'
-    let g:airline_theme='dracula'
-    " let g:airline_theme='solarized'
-    " let g:airline_solarized_bg='dark'
-    let g:airline_powerline_fonts = 0
+    " let g:airline_theme='dracula'
+    let g:airline_theme='solarized'
+    let g:airline_solarized_bg='dark'
+    let g:airline_powerline_fonts = 1
     let g:airline#extensions#tabline#enabled = 1
     let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
     let g:airline#extensions#tabline#show_tab_nr = 1
@@ -232,9 +232,13 @@ nnoremap <leader>hw :%!xxd -r<cr> :set binary<cr> :set filetype=<cr>
 nnoremap <leader>fj :JsonFormat<cr>
 nnoremap <leader>fd :let a=expand("<cword>")<Bar>:echo strftime("%Y %b %d %T", a)<CR>
 
-colors dracula
 let &colorcolumn="120"
-hi Normal guibg=NONE ctermbg=NONE
+colors solarized
+highlight VertSplit ctermbg=NONE
+highlight clear SignColumn " for solarized dark color scheme
+exec "set listchars=tab:\u2F1\u2CD\u2F2,nbsp:\u2F7,trail:\uB7"
+set list
+
 
 augroup ft_vim
   autocmd!
