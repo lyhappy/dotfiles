@@ -1,9 +1,9 @@
 # set -g default-command 'login-shell'
 
 # tmux display things in 256 colors
-# set -g default-terminal 'tmux-256color-italic'
-# set-option -ga terminal-overrides  ',tmux-256color-italics:Tc'
-# set -as terminal-overrides ',xterm*:Tc:sitm=\E[3m'
+set -g default-terminal 'tmux-256color-italic'
+set-option -ga terminal-overrides  ',tmux-256color-italics:Tc'
+set -as terminal-overrides ',xterm*:Tc:sitm=\E[3m'
 
 set -g history-limit 20000
 
@@ -70,16 +70,18 @@ setw -g mode-keys vi
 unbind [
 bind Escape copy-mode
 unbind p
-bind p paste-buffer
-bind -Tcopy-mode-vi 'v' send -X begin-selection
-bind -Tcopy-mode-vi 'y' send -X copy-pipe-and-cancel "tmux save-buffer - | reattach-to-user-namespace pbcopy"
-
+bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "xsel -i -p && xsel -o -p | xsel -i -b"
+bind-key p run "xsel -o | tmux load-buffer - ; tmux paste-buffer"
+# bind -Tcopy-mode-vi 'v' send -X begin-selection
+# bind -Tcopy-mode-vi 'y' send -X copy-pipe-and-cancel "tmux save-buffer - | reattach-to-user-namespace pbcopy"
+# bind -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "xsel -i --clipboard"
 # Buffers to/from Mac clipboard, yay tmux book from pragprog
-bind C-c run "tmux save-buffer - | reattach-to-user-namespace pbcopy"
-bind C-v run "tmux set-buffer $(reattach-to-user-namespace pbpaste); tmux paste-buffer"
+# bind C-c run "tmux save-buffer - | reattach-to-user-namespace pbcopy"
+# bind C-v run "tmux set-buffer $(reattach-to-user-namespace pbpaste); tmux paste-buffer"
 
 bind C-e run "`export testEnv=test`"
-set -g default-terminal 'tmux-256color-italics'
-set-option -ga terminal-overrides ",tmux-256color-italics:Tc"
-# source ~/code/dotfiles/tmux/theme.sh
-source ~/.tmux/airline-dracula.sh
+# set -g default-terminal 'tmux-256color-italic'
+# set -g default-terminal 'tmux-256color'
+# set-option -ga terminal-overrides ',tmux-256color:Tc'
+# set-option -ga terminal-overrides ",tmux-256color-italic:Tc"
+source ~/code/dotfiles/tmux/theme.sh
