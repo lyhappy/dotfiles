@@ -2,10 +2,10 @@ set nocompatible
 filetype off
 
 " {{{ use vim-plug manage plugins
-if empty(glob('~/.vim/autoload/plug.vim'))
-	silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-				\ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-	autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+if empty(glob('~/.config/nvim/autoload/plug.vim'))
+  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 " }}}
 
@@ -16,7 +16,7 @@ let g:mapleader = ','
 """"""""""""""""""""""""""""""""
 " => vim plugin list
 """"""""""""""""""""""""""""""""
-call plug#begin('~/.config/vim/plugged')
+call plug#begin('~/.config/nvim/plugged')
 
 " -------- Themes --------
   Plug 'dracula/vim', {'as': 'dracula' }
@@ -271,6 +271,8 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <silent> gc <Plug>(coc-action-documentSymbols)
+
+au BufNewFile,BufRead *.hql set filetype=hive expandtab
 
 " {{{ 定义函数AutoSetFileHead，自动插入文件头
 autocmd BufNewFile *.sh,*.py exec ":call AutoSetFileHead()"
