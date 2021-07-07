@@ -8,7 +8,7 @@ set -x TERM "xterm-256color"
 
 ### Export ###
 set -x EDITOR "nvim"
-set -x MANPAGER "sh -c 'col -bx | bat -l man -p'" 
+set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
 
 ### aliases ###
 alias vim='nvim'
@@ -33,15 +33,8 @@ alias fgrep='fgrep --color=auto'
 alias calendar='vim -c "Calendar"'
 alias todo="vim $HOME/workspace/worknotes/todos/index.md"
 
-function say 
-	echo $argv | festival --tts
+function say
+    echo $argv | festival --tts
 end
 
-function proxy_on
-	set -xg ALL_PROXY ""
-end
-
-function proxy_off
-	set -xg ALL_PROXY ""
-end
-
+source "$HOME/.config/fish/tools/proxy"
