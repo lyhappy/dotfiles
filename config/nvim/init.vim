@@ -19,15 +19,17 @@ let g:mapleader = ','
 call plug#begin('~/.config/nvim/plugged')
 
 " -------- Themes --------
-  Plug 'dracula/vim', {'as': 'dracula' }
+  " Plug 'dracula/vim', {'as': 'dracula' }
+  Plug 'tomasr/molokai'
+  " Plug 'altercation/vim-colors-solarized'
   Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
     " let g:airline_theme='atomic'
-    " let g:airline_theme='molokai'
+    let g:airline_theme='molokai'
     " let g:airline_theme='dracula'
-    let g:airline_theme='solarized'
-    let g:airline_solarized_bg='dark'
-    let g:airline_powerline_fonts = 1
+    " let g:airline_theme='solarized'
+    " let g:airline_solarized_bg='dark'
+    let g:airline_powerline_fonts = 0
     let g:airline#extensions#tabline#enabled = 1
     let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
     let g:airline#extensions#tabline#show_tab_nr = 1
@@ -36,16 +38,29 @@ call plug#begin('~/.config/nvim/plugged')
     let g:airline#extensions#tabline#fnametruncate = 16
     let g:airline#extensions#tabline#fnamecollapse = 2
     let g:airline#extensions#tabline#buffer_idx_mode = 1
+      nmap <leader>1 <Plug>AirlineSelectTab1
+      nmap <leader>2 <Plug>AirlineSelectTab2
+      nmap <leader>3 <Plug>AirlineSelectTab3
+      nmap <leader>4 <Plug>AirlineSelectTab4
+      nmap <leader>5 <Plug>AirlineSelectTab5
+      nmap <leader>6 <Plug>AirlineSelectTab6
+      nmap <leader>7 <Plug>AirlineSelectTab7
+      nmap <leader>8 <Plug>AirlineSelectTab8
+      nmap <leader>9 <Plug>AirlineSelectTab9
     set laststatus=2
-  Plug 'ryanoasis/vim-devicons'
+  Plug 'mtdl9/vim-log-highlighting'
 
 " -------- File Management --------
   Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
     nnoremap <leader>nf :NERDTreeFind<CR>
-    nnoremap <F2> :NERDTree<CR>
-    let NERDTreeShowBookmarks=1
+    nnoremap <F2> :NERDTreeToggle<CR>
+    let g:NERDTreeShowBookmarks=1
+    let g:NERDTreeDirArrowExpandable=''
+    let g:NERDTreeDirArrowCollapsible=''
   Plug 'Xuyuanp/nerdtree-git-plugin', { 'on':  'NERDTree' }
-    let g:NERDTreeIndicatorMapCustom = {
+    let g:NERDTreeGitStatusUseNerdFonts = 1
+    let g:NERDTreeGitStatusShowIgnored = 0
+    let g:NERDTreeGitStatusIndicatorMapCustom = {
         \ "Modified"  : "✹",
         \ "Staged"    : "✚",
         \ "Untracked" : "✭",
@@ -58,6 +73,9 @@ call plug#begin('~/.config/nvim/plugged')
         \ "Unknown"   : "?"
         \ }
   Plug 'vifm/vifm.vim'
+  Plug 'ryanoasis/vim-devicons'
+  Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+  Plug 'MattesGroeger/vim-bookmarks'
 
 " -------- Productivity --------
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -69,6 +87,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'majutsushi/tagbar'
     nnoremap <F3> :Tagbar<cr>
     nnoremap <leader>tj :TagbarOpen j<cr>
+  Plug 'liuchengxu/vista.vim'
   Plug 'easymotion/vim-easymotion'
     let g:EasyMotion_leader_key = '\'
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -77,7 +96,8 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'nicwest/vim-http'
   Plug 'preservim/nerdcommenter'
     let g:NERDSpaceDelims=1
-
+  Plug 'gyim/vim-boxdraw'
+  Plug 'neovim/nvim-lspconfig'
   " use snippets with coc-snippets
   Plug 'honza/vim-snippets'
 
@@ -88,7 +108,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'ap/vim-css-color'
 
 " -------- Markdown docs --------
-  Plug 'iamcco/markdown-preview.vim', { 'for': 'markdown' }
+  Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
   Plug 'mzlogin/vim-markdown-toc'
   Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
   Plug 'junegunn/limelight.vim'
@@ -108,7 +128,7 @@ call plug#begin('~/.config/nvim/plugged')
       let wiki_worknotes.custom_wiki2html = 'vimwiki_markdown'
 
       let wiki_studynotes = {}
-      let wiki_studynotes.path = '~/vimwiki/'
+      " let wiki_studynotes.path = '~/vimwiki/'
 
       let g:vimwiki_list = [wiki_worknotes, wiki_studynotes]
       nnoremap <leader>wtl :Ack -Q "[ ]" . -r<cr>
@@ -136,17 +156,70 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'tpope/vim-fugitive'
     nnoremap <leader>gw :Gwrite<cr>
     nnoremap <leader>gr :Gread<cr>
-    nnoremap <leader>gc :Gcommit<cr>
+    nnoremap <leader>gc :Git commit<cr>
     nnoremap <leader>gs :Gstatus<cr>
     nnoremap <leader>gl :Glog<cr>
     nnoremap <leader>gb :Gblame<cr>
     nnoremap <leader>gd :Gvdiff<cr>
   Plug 'junegunn/gv.vim'
+  Plug 'junegunn/vim-cfr'
 
 " -------- language support ---------
   Plug 'fatih/vim-go'
+  Plug 'mfussenegger/nvim-jdtls'
+  Plug 'scalameta/nvim-metals'
 
 call plug#end()
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => nvim-lspconfig
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+lua <<EOF
+local nvim_lsp = require('lspconfig')
+
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
+local on_attach = function(client, bufnr)
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+  -- Enable completion triggered by <c-x><c-o>
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  local opts = { noremap=true, silent=true }
+
+  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+end
+
+--
+--
+local servers = { "pyright", "clangd", "gopls", "cmake" }
+for _, lsp in ipairs(servers) do
+  nvim_lsp[lsp].setup {
+    on_attach = on_attach,
+    flags = {
+      debounce_text_changes = 150,
+      }
+    }
+end
+EOF
 
 filetype plugin indent on
 
@@ -171,31 +244,35 @@ set mouse=a
 syntax enable
 
 
+autocmd BufNewFile,BufRead *.hql set filetype=hive
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => expandtab adn tabstop
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 augroup expandtab
   autocmd FileType * setlocal ts=4 sts=4 sw=4 | set noexpandtab nolist
-  autocmd FileType make setlocal ts=4 sts=4 sw=4 | set noexpandtab list
-  autocmd FileType cpp setlocal ts=2 sts=2 sw=2 | set expandtab
-  autocmd FileType php setlocal ts=4 sts=4 sw=4 | set expandtab
-  autocmd FileType python setlocal ts=4 sts=4 sw=4 nolist | set expandtab
-  autocmd Filetype html setlocal ts=4 sts=4 sw=4 | set expandtab
-  autocmd Filetype javascript setlocal ts=2 sts=2 sw=2 | set expandtab
-  autocmd Filetype json setlocal ts=2 sts=2 sw=2 | set expandtab
-  autocmd Filetype vue setlocal ts=2 sts=2 sw=2 | set expandtab
-  autocmd Filetype vim setlocal ts=2 sts=2 sw=2 | set expandtab
-  autocmd Filetype markdown setlocal ts=2 sts=2 sw=2 | set expandtab
-  autocmd Filetype go setlocal ts=4 sts=4 sw=4 nolist
+  autocmd FileType make setlocal ts=4 sts=4 sw=4 | set noexpandtab nolist
+  autocmd FileType php setlocal ts=4 sts=4 sw=4 | set expandtab list
+  autocmd FileType python setlocal ts=4 sts=4 sw=4 | set expandtab list
+  autocmd Filetype go setlocal ts=2 sts=2 sw=2 | set noexpandtab nolist
   autocmd FileType java setlocal ts=4 sts=4 sw=4 | set noexpandtab nolist
-  autocmd FileType scala setlocal ts=2 sts=2 sw=2 | set noexpandtab nolist
+  autocmd Filetype html setlocal ts=4 sts=4 sw=4 | set expandtab list
+  autocmd FileType cpp setlocal ts=2 sts=2 sw=2 | set expandtab list
+  autocmd Filetype javascript setlocal ts=2 sts=2 sw=2 | set expandtab list
+  autocmd Filetype json setlocal ts=2 sts=2 sw=2 | set expandtab list
+  autocmd Filetype vue setlocal ts=2 sts=2 sw=2 | set expandtab list
+  autocmd Filetype vim setlocal ts=2 sts=2 sw=2 | set expandtab list
+  autocmd Filetype markdown setlocal ts=2 sts=2 sw=2 | set expandtab
+  autocmd FileType scala setlocal ts=2 sts=2 sw=2 | set expandtab list
+  autocmd FileType hive setlocal ts=8 sts=8 sw=8 | set expandtab nolist
+  autocmd FileType sql setlocal ts=8 sts=8 sw=8 | set expandtab nolist
 augroup END
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Leader key maps
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <silent> <leader>ev :vsp $MYVIMRC<CR>
+nnoremap <silent> <leader>ev :tabedit $MYVIMRC<CR>
 nnoremap <silent> <leader>sv :so $MYVIMRC<CR>
 
 nnoremap <silent> <leader>w <esc>:w<CR>
@@ -232,14 +309,22 @@ nnoremap <leader>hw :%!xxd -r<cr> :set binary<cr> :set filetype=<cr>
 
 nnoremap <leader>fj :JsonFormat<cr>
 nnoremap <leader>fd :let a=expand("<cword>")<Bar>:echo strftime("%Y %b %d %T", a)<CR>
+nnoremap <silent> <leader>s :!say <cword><CR>
+vnoremap <silent> <leader>s <esc>gv"ay :!say <c-r>a<CR>
 
-let &colorcolumn="120"
-colors solarized
-highlight VertSplit ctermbg=NONE
-highlight clear SignColumn " for solarized dark color scheme
-exec "set listchars=tab:\u2F1\u2CD\u2F2,nbsp:\u2F7,trail:\uB7"
-set list
+vnoremap <leader>yc "+y
 
+" let &colorcolumn="120"
+" colors solarized
+colors molokai
+let g:molokai_original=1
+" highlight ColorColumn guibg=NONE ctermbg=NONE ctermfg=120
+highlight Normal guibg=NONE ctermbg=NONE
+" highlight VertSplit ctermbg=NONE
+" highlight clear SignColumn " for solarized dark color scheme
+" exec "set listchars=tab:\u2F1\u2CD\u2F2,nbsp:\u2F7,trail:\uB7"
+exec "set listchars=tab:-->,nbsp:\u2F7,trail:\uB7"
+" set list
 
 augroup ft_vim
   autocmd!
@@ -250,29 +335,37 @@ augroup END
 " => coc.nvim
 """""""""""""""""""""""""""""""""""""""""""
 
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+" inoremap <silent><expr> <TAB>
+"       \ pumvisible() ? coc#_select_confirm() :
+"       \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+"       \ <SID>check_back_space() ? "\<TAB>" :
+"       \ coc#refresh()
+" 
+" function! s:check_back_space() abort
+"   let col = col('.') - 1
+"   return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
+" 
+" let g:coc_snippet_next = '<tab>'
 
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
+" nmap <silent> [g <Plug>(coc-diagnostic-prev)
+" nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
-let g:coc_snippet_next = '<tab>'
+" nmap <silent> gd <Plug>(coc-definition)
+" nmap <silent> gy <Plug>(coc-type-definition)
+" nmap <silent> gi <Plug>(coc-implementation)
+" nmap <silent> gr <Plug>(coc-references)
+" nmap <silent> gc <Plug>(coc-action-documentSymbols)
 
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-nmap <silent> gc <Plug>(coc-action-documentSymbols)
-
-au BufNewFile,BufRead *.hql set filetype=hive expandtab
+" popup
+nmap <Leader>t <Plug>(coc-translator-p)
+vmap <Leader>t <Plug>(coc-translator-pv)
+" echo
+nmap <Leader>e <Plug>(coc-translator-e)
+vmap <Leader>e <Plug>(coc-translator-ev)
+" replace
+nmap <Leader>r <Plug>(coc-translator-r)
+vmap <Leader>r <Plug>(coc-translator-rv)
 
 " {{{ 定义函数AutoSetFileHead，自动插入文件头
 autocmd BufNewFile *.sh,*.py exec ":call AutoSetFileHead()"
@@ -309,3 +402,4 @@ command! JsonFormat :execute '%!python -m json.tool'
             \ | :1
 
 call SourceIfExists('.vimrc.local')
+source ~/.config/nvim/plugin/youdao.vim
