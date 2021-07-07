@@ -332,7 +332,7 @@
   (use-package lsp-treemacs
     :after treemacs lsp-mode
     :config
-    (lsp-metals-treeview-enable t)
+    (setq lsp-metals-treeview-enable t)
     (setq lsp-metals-treeview-show-when-views-received t))
 
 #+END_SRC
@@ -352,4 +352,20 @@
 	   ))
     :config (add-hook 'java-mode-hook #'lsp))
 	
+#+END_SRC
+* Rime
+  中文输入法
+#+BEGIN_SRC emacs-lisp
+  (use-package rime
+    :custom
+    (default-input-method "rime"))
+    :init
+    (setq rime-user-data-dir "~/.config/ibus/rime")
+#+END_SRC
+* evil
+#+BEGIN_SRC emacs-lisp
+  (require 'evil)
+  (evil-mode 1)
+  
+
 #+END_SRC
