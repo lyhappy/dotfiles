@@ -1,0 +1,3 @@
+[submodule "thirdpart/nord-tmux"]
+	path = thirdpart/nord-tmux
+	url = https://github.com/arcticicestudio/nord-tmux.git
