@@ -20,12 +20,14 @@ call plug#begin('~/.config/nvim/plugged')
 
 " -------- Themes --------
   " Plug 'dracula/vim', {'as': 'dracula' }
-  Plug 'tomasr/molokai'
+  " Plug 'tomasr/molokai'
+  " Plug 'fmoralesc/molokayo'
+  Plug 'arcticicestudio/nord-vim'
   " Plug 'altercation/vim-colors-solarized'
   Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
     " let g:airline_theme='atomic'
-    let g:airline_theme='molokai'
+    " let g:airline_theme='nord'
     " let g:airline_theme='dracula'
     " let g:airline_theme='solarized'
     " let g:airline_solarized_bg='dark'
@@ -114,7 +116,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'junegunn/limelight.vim'
     let g:limelight_conceal_ctermfg = 'gray'
     let g:limelight_conceal_ctermfg = 240
-  " {{{ vimwiki
+  " {{{ Plug 'vimwiki/vimwiki'
   Plug 'vimwiki/vimwiki'
       let wiki_worknotes = {}
       let wiki_worknotes.path = '~/workspace/worknotes/'
@@ -134,7 +136,7 @@ call plug#begin('~/.config/nvim/plugged')
       nnoremap <leader>wtl :Ack -Q "[ ]" . -r<cr>
       let g:vimwiki_valid_html_tags = 'b,i,s,u,sub,sup,kbd,br,hr, pre, script'
   " }}}
-  " {{{ vim-table-mode
+  " {{{ Plug 'dhruvasagar/vim-table-mode'
   Plug 'dhruvasagar/vim-table-mode'
     function! s:isAtStartOfLine(mapping)
       let text_before_cursor = getline('.')[0 : col('.')-1]
@@ -157,10 +159,10 @@ call plug#begin('~/.config/nvim/plugged')
     nnoremap <leader>gw :Gwrite<cr>
     nnoremap <leader>gr :Gread<cr>
     nnoremap <leader>gc :Git commit<cr>
-    nnoremap <leader>gs :Gstatus<cr>
-    nnoremap <leader>gl :Glog<cr>
-    nnoremap <leader>gb :Gblame<cr>
-    nnoremap <leader>gd :Gvdiff<cr>
+    nnoremap <leader>gs :Git<cr>
+    nnoremap <leader>gl :Gclog<cr>
+    nnoremap <leader>gb :Git blame<cr>
+    nnoremap <leader>gd :Gvdiffsplit<cr>
   Plug 'junegunn/gv.vim'
   Plug 'junegunn/vim-cfr'
 
@@ -316,7 +318,8 @@ vnoremap <leader>yc "+y
 
 " let &colorcolumn="120"
 " colors solarized
-colors molokai
+" colors molokai
+colors nord
 let g:molokai_original=1
 " highlight ColorColumn guibg=NONE ctermbg=NONE ctermfg=120
 highlight Normal guibg=NONE ctermbg=NONE
@@ -325,6 +328,10 @@ highlight Normal guibg=NONE ctermbg=NONE
 " exec "set listchars=tab:\u2F1\u2CD\u2F2,nbsp:\u2F7,trail:\uB7"
 exec "set listchars=tab:-->,nbsp:\u2F7,trail:\uB7"
 " set list
+
+if has("termguicolors")
+  set termguicolors
+endif
 
 augroup ft_vim
   autocmd!
