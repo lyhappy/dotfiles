@@ -27,12 +27,11 @@
 import os
 import socket
 import subprocess
-
-from typing import List  # noqa: F401
+from typing import List
 
 from libqtile import qtile
-from libqtile import bar, layout, widget, hook
-from libqtile.config import Click, Drag, Group, Key, Screen
+from libqtile import bar, hook, layout, widget
+from libqtile.config import Click, Drag, Group, Key, Screen, Match
 from libqtile.lazy import lazy
 
 mod = "mod4"
@@ -45,54 +44,53 @@ browser = "firefox"
 
 keys = [
     ### The essentials
-    Key([mod], "Return", lazy.spawn(myTerm), desc='Launches My Terminal'),
-    Key([mod, "shift"], "Return", lazy.spawn("dmenu_run -p 'Run: '"), desc='Dmenu Run Launcher'),
-    Key([mod], "Tab", lazy.next_layout(), desc='Toggle through layouts'),
-    Key([mod, "shift"], "c", lazy.window.kill(), desc='Kill active window'),
-    Key([mod, "shift"], "r", lazy.restart(), desc='Restart Qtile'),
-    Key([mod, "shift"], "q", lazy.shutdown(), desc='Shutdown Qtile'),
-    Key([ctl, "shift"], "e", lazy.spawn("emacs"), desc='Doom Emacs'),
-    Key([mod], "s", lazy.spawn(myTerm+" -e bash ~/.stools/relay"), desc='ssh relay'),
+    Key([mod],          "Return",   lazy.spawn(myTerm),                     desc='Launches My Terminal'),
+    Key([mod, "shift"], "Return",   lazy.spawn("dmenu_run -p 'Run: '"),     desc='Dmenu Run Launcher'),
+    Key([mod],          "Tab",      lazy.next_layout(),                     desc='Toggle through layouts'),
+    Key([mod, "shift"], "c",        lazy.window.kill(),                     desc='Kill active window'),
+    Key([mod, "shift"], "r",        lazy.restart(),                         desc='Restart Qtile'),
+    Key([mod, "shift"], "q",        lazy.shutdown(),                        desc='Shutdown Qtile'),
+    Key([ctl, "shift"], "e",        lazy.spawn("emacs"),                    desc='Doom Emacs'),
+    Key([mod],          "s",        lazy.spawn(myTerm+" -e bash ~/.stools/relay"),  desc='ssh relay'),
     ### Switch focus to specific monitor (out of three)
-    Key([mod], "w", lazy.to_screen(0), desc='Keyboard focus to monitor 1'),
-    Key([mod], "e", lazy.to_screen(1), desc='Keyboard focus to monitor 2'),
-    Key([ctl, "shift"], "l", lazy.spawn("slock")),
-    Key([mod], "z", lazy.spawn("zathura"), desc='e-book viewer'),
-    Key([mod], "f", lazy.spawn(myTerm + " -e ./.config/vifm/scripts/vifmrun"), desc='file explorer'),
+    Key([mod],          "w",        lazy.to_screen(0),                      desc='Keyboard focus to monitor 1'),
+    Key([mod],          "e",        lazy.to_screen(1),                      desc='Keyboard focus to monitor 2'),
+    Key([ctl, "shift"], "l",        lazy.spawn("slock")),
+    Key([mod],          "z",        lazy.spawn("zathura"),                  desc='e-book viewer'),
+    Key([mod],          "f",        lazy.spawn(myTerm + " -e ./.config/vifm/scripts/vifmrun"), desc='file explorer'),
     ### Switch focus of monitors
-    Key([mod], "period", lazy.next_screen(), desc='Move focus to next monitor'),
-    Key([mod], "comma", lazy.prev_screen(), desc='Move focus to prev monitor'),
+    Key([mod],          "period",   lazy.next_screen(),                     desc='Move focus to next monitor'),
+    Key([mod],          "comma",    lazy.prev_screen(),                     desc='Move focus to prev monitor'),
     ### Treetab controls
-    Key([mod, ctl], "k", lazy.layout.section_up(), desc='Move up a section in treetab'),
-    Key([mod, ctl], "j", lazy.layout.section_down(), desc='Move down a section in treetab'),
+    Key([mod, ctl],     "k",        lazy.layout.section_up(),               desc='Move up a section in treetab'),
+    Key([mod, ctl],     "j",        lazy.layout.section_down(),             desc='Move down a section in treetab'),
     ### Window controls
-    Key([mod], "k", lazy.layout.down(), desc='Move focus down in current stack pane'),
-    Key([mod], "j", lazy.layout.up(), desc='Move focus up in current stack pane'),
-    Key([mod, "shift"], "k", lazy.layout.shuffle_down(), desc='Move windows down in current stack'),
-    Key([mod, "shift"], "j", lazy.layout.shuffle_up(), desc='Move windows up in current stack'),
-    Key([mod, "shift"], "h", lazy.layout.grow(), lazy.layout.increase_nmaster(), desc='Expand window (MonadTall), increase number in master pane (Tile)'),
-    Key([mod, "shift"], "l", lazy.layout.shrink(), lazy.layout.decrease_nmaster(), desc='Shrink window (MonadTall), decrease number in master pane (Tile)'),
-    Key([mod], "n", lazy.layout.normalize(), desc='normalize window size ratios'),
-    Key([mod], "m", lazy.layout.maximize(), desc='toggle window between minimum and maximum sizes'),
-    Key([mod, "shift"], "f", lazy.window.toggle_floating(), desc='toggle floating'),
-    Key([mod, "shift"], "m", lazy.window.toggle_fullscreen(), desc='toggle fullscreen'),
+    Key([mod],          "k",        lazy.layout.down(),                     desc='Move focus down in current stack pane'),
+    Key([mod],          "j",        lazy.layout.up(),                       desc='Move focus up in current stack pane'),
+    Key([mod, "shift"], "k",        lazy.layout.shuffle_down(),             desc='Move windows down in current stack'),
+    Key([mod, "shift"], "j",        lazy.layout.shuffle_up(),               desc='Move windows up in current stack'),
+    Key([mod, "shift"], "h",        lazy.layout.grow(), lazy.layout.increase_nmaster(), desc='Expand window (MonadTall), increase number in master pane (Tile)'),
+    Key([mod, "shift"], "l",        lazy.layout.shrink(), lazy.layout.decrease_nmaster(), desc='Shrink window (MonadTall), decrease number in master pane (Tile)'),
+    Key([mod],          "n",        lazy.layout.normalize(),                desc='normalize window size ratios'),
+    Key([mod],          "m",        lazy.layout.maximize(),                 desc='toggle window between minimum and maximum sizes'),
+    Key([mod, "shift"], "f",        lazy.window.toggle_floating(),          desc='toggle floating'),
+    Key([mod, "shift"], "m",        lazy.window.toggle_fullscreen(),        desc='toggle fullscreen'),
     ### Stack controls
-    Key([mod, "shift"], "space", lazy.layout.rotate(), lazy.layout.flip(), desc='Switch which side main pane occupies (XmonadTall)'),
-    Key([mod], "space", lazy.layout.next(), desc='Switch window focus to other pane(s) of stack'),
-    Key([mod, ctl], "Return", lazy.layout.toggle_split(), desc='Toggle between split and unsplit sides of stack'),
+    Key([mod, "shift"], "space",    lazy.layout.rotate(), lazy.layout.flip(), desc='Switch which side main pane occupies (XmonadTall)'),
+    Key([mod],          "space",    lazy.layout.next(),                       desc='Switch window focus to other pane(s) of stack'),
+    Key([mod, ctl],     "Return",   lazy.layout.toggle_split(),               desc='Toggle between split and unsplit sides of stack'),
     ### Dmenu scripts launched with ALT + CTRL + KEY
-    Key([alt, ctl], "e", lazy.spawn("./.dmenu/dmenu-edit-configs.sh"), desc='Dmenu script for editing config files'),
-    Key([alt, ctl], "m", lazy.spawn("./.dmenu/dmenu-sysmon.sh"), desc='Dmenu system monitor script'),
-    Key([alt, ctl], "p", lazy.spawn("passmenu"), desc='Passmenu'),
-    Key([alt, ctl], "r", lazy.spawn("./.dmenu/dmenu-reddio.sh"), desc='Dmenu reddio script'),
-    Key([alt, ctl], "s", lazy.spawn("./.dmenu/dmenu-surfraw.sh"), desc='Dmenu surfraw script'),
-    Key([alt, ctl], "t", lazy.spawn("./.dmenu/dmenu-trading.sh"), desc='Dmenu trading programs script'),
-    Key([alt, ctl], "i", lazy.spawn("./.dmenu/dmenu-scrot.sh"), desc='Dmenu scrot script'),
+    Key([alt, ctl],     "e",        lazy.spawn("./.dmenu/dmenu-edit-configs.sh"),   desc='Dmenu script for editing config files'),
+    Key([alt, ctl],     "m",        lazy.spawn("./.dmenu/dmenu-sysmon.sh"),         desc='Dmenu system monitor script'),
+    Key([alt, ctl],     "r",        lazy.spawn("./.dmenu/dmenu-reddio.sh"),         desc='Dmenu reddio script'),
+    Key([alt, ctl],     "s",        lazy.spawn("./.dmenu/dmenu-surfraw.sh"),        desc='Dmenu surfraw script'),
+    Key([alt, ctl],     "t",        lazy.spawn("./.dmenu/dmenu-trading.sh"),        desc='Dmenu trading programs script'),
+    Key([alt, ctl],     "i",        lazy.spawn("./.dmenu/dmenu-scrot.sh"),          desc='Dmenu scrot script'),
     ### My applications launched with SUPER + ALT + KEY
-    Key([mod], "b", lazy.spawn(browser), desc='firefox browser'),
-    Key([mod, alt], "n", lazy.spawn(myTerm+" -e newsboat"), desc='newsboat'),
-    Key([mod, alt], "m", lazy.spawn(myTerm+" -e sh ./scripts/toot.sh"), desc='toot mastodon cli'),
-    Key([mod, alt], "t", lazy.spawn(myTerm+" -e sh ./scripts/tig-script.sh"), desc='tig'),
+    Key([mod],          "b",        lazy.spawn(browser),                                 desc='firefox browser'),
+    Key([mod, alt],     "n",        lazy.spawn(myTerm+" -e newsboat"),                   desc='newsboat'),
+    Key([mod, alt],     "m",        lazy.spawn(myTerm+" -e sh ./scripts/toot.sh"),       desc='toot mastodon cli'),
+    Key([mod, alt],     "t",        lazy.spawn(myTerm+" -e sh ./scripts/tig-script.sh"), desc='tig'),
 ]
 
 group_names = [(" 🛠  ", {'layout': 'monadtall'}),
@@ -152,7 +150,15 @@ layouts = [
          section_top = 10,
          panel_width = 220
          ),
-    layout.Floating(**layout_theme)
+    layout.Floating(float_rules=[
+        *layout.Floating.default_float_rules,
+        Match(wm_class='confirmreset'),  # gitk 
+        Match(wm_class='makebranch'),  # gitk 
+        Match(wm_class='maketag'),  # gitk 
+        Match(wm_class='ssh-askpass'),  # ssh-askpass 
+        Match(title='branchdialog'),  # gitk 
+        Match(title='pinentry'),  # GPG key password entry 
+        ])
 ]
 
 colors = [["#292d3e", "#292d3e"], # panel background
@@ -299,23 +305,23 @@ dgroups_app_rules = []  # type: List
 follow_mouse_focus = True
 bring_front_click = False
 cursor_warp = False
-floating_layout = layout.Floating(float_rules=[
-    # Run the utility of `xprop` to see the wm class and name of an X client.
-    {'wmclass': 'confirm'},
-    {'wmclass': 'dialog'},
-    {'wmclass': 'download'},
-    {'wmclass': 'error'},
-    {'wmclass': 'file_progress'},
-    {'wmclass': 'notification'},
-    {'wmclass': 'splash'},
-    {'wmclass': 'toolbar'},
-    {'wmclass': 'confirmreset'},  # gitk
-    {'wmclass': 'makebranch'},  # gitk
-    {'wmclass': 'maketag'},  # gitk
-    {'wname': 'branchdialog'},  # gitk
-    {'wname': 'pinentry'},  # GPG key password entry
-    {'wmclass': 'ssh-askpass'},  # ssh-askpass
-])
+# floating_layout = layout.Floating(float_rules=[
+#     # Run the utility of `xprop` to see the wm class and name of an X client.
+#     {'wmclass': 'confirm'},
+#     {'wmclass': 'dialog'},
+#     {'wmclass': 'download'},
+#     {'wmclass': 'error'},
+#     {'wmclass': 'file_progress'},
+#     {'wmclass': 'notification'},
+#     {'wmclass': 'splash'},
+#     {'wmclass': 'toolbar'},
+#     {'wmclass': 'confirmreset'},  # gitk
+#     {'wmclass': 'makebranch'},  # gitk
+#     {'wmclass': 'maketag'},  # gitk
+#     {'wname': 'branchdialog'},  # gitk
+#     {'wname': 'pinentry'},  # GPG key password entry
+#     {'wmclass': 'ssh-askpass'},  # ssh-askpass
+# ])
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 reconfigure_screens = True
