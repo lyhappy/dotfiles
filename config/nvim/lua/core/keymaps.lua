@@ -13,6 +13,8 @@ end
 -- Change leader to a comma
 vim.g.mapleader = ','
 
+vim.keymap.set("n", ";", ":")
+
 -----------------------------------------------------------
 -- Neovim shortcuts
 -----------------------------------------------------------
@@ -46,13 +48,18 @@ map('n', '<C-k>', '<C-w>k')
 map('n', '<C-l>', '<C-w>l')
 
 -- Reload configuration without restart nvim
-map('n', '<leader>r', ':so %<CR>')
+map('n', '<leader>ev', "<cmd>e $MYVIMRC<CR>")
+map('n', '<leader>sv', "<cmd>so $MYVIMRC<CR>")
 
 -- Fast saving with <leader> and s
 map('n', '<leader>w', ':w<CR>')
 
 -- Close all windows and exit from Neovim with <leader> and q
 map('n', '<leader>q', ':q<CR>')
+
+-- Keeping it centered
+map("n", "n", "nzzzv")
+map("n", "N", "Nzzzv")
 
 -----------------------------------------------------------
 -- Applications and Plugins shortcuts
