@@ -74,7 +74,7 @@
     # show the most recently touched branches
     recent = "!git for-each-ref --sort='-committerdate' --format='%(color:red)%(refname)%(color:reset)%09%(committerdate)' refs/heads | sed -e 's-refs/heads/--' | less -XFR"
     latest = "!git for-each-ref --sort='-committerdate' --format='%(color:red)%(refname)%(color:reset)%09%(committerdate)' refs/remotes | sed -e 's-refs/remotes/origin/--' | less -XFR"
-    
+
   	# grep commands
 
     # 'diff grep'
@@ -89,7 +89,7 @@
     aa = !git ls-files -d | xargs git rm && git ls-files -m -o --exclude-standard | xargs git add
     # remove grep - Remove found files that are NOT under version control
     rg = "!sh -c 'git ls-files --others --exclude-standard | grep $1 | xargs rm' -"
-		
+
 		# Kaleidoscope commands
     dkal = difftool -y -t Kaleidoscope
     mkal = mergetool -y -t Kaleidoscope
@@ -117,7 +117,7 @@
     lola = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all
     log = log --oneline --decorate --graph
     loga = log --oneline --decorate --graph --all
-    
+
 [color]
 		diff = auto
 		status = auto
@@ -179,3 +179,10 @@
 [pager]
 		diff = "diff-so-fancy | less --tabs=4 -RFX"
 		show = "diff-so-fancy | less --tabs=4 -RFX"
+# [url "https://github.com.cnpmjs.org/"]
+# 	insteadOf = https://github.com/
+[http]
+	proxy = socks5://127.0.0.1:1080
+	version = HTTP/1.1
+[https]
+	proxy = socks5://127.0.0.1:1080
