@@ -85,3 +85,32 @@ map('n', '<leader>gr', ':Gread<cr>')
 map('n', '<leader>gc', ':Git commit<cr>')
 map('n', '<leader>gl', ':Gclog<cr>')
 map('n', '<leader>gb', ':Git blame<cr>')
+
+-- for comment.nvim
+require('Comment').setup()
+-- vim.keymap.set("n", "<C-_>", function() require('Comment.api').toggle.linewise.current() end, { noremap = true, silent = true })
+-- Toggle current line (linewise) using C-/
+local api = require('Comment.api')
+vim.keymap.set('n', '<C-_>', api.toggle.linewise.current)
+
+-- Toggle current line (blockwise) using C-\
+vim.keymap.set('n', '<C-\\>', api.toggle.blockwise.current)
+
+local esc = vim.api.nvim_replace_termcodes(
+    '<ESC>', true, false, true
+)
+
+-- Toggle selection (linewise)
+vim.keymap.set('x', '<C-_>', function()
+    vim.api.nvim_feedkeys(esc, 'nx', false)
+    api.toggle.linewise(vim.fn.visualmode())
+end)
+
+-- Toggle selection (blockwise)
+vim.keymap.set('x', '<C-\\>', function()
+    vim.api.nvim_feedkeys(esc, 'nx', false)
+    api.toggle.blockwise(vim.fn.visualmode())
+end)
+
+vim.keymap.set("n", "<leader><CR>", "<cmd>lua ReloadConfig()<CR>", { noremap = true, silent = false })
+

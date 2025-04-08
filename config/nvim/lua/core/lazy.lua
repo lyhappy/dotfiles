@@ -88,6 +88,7 @@ lazy.setup({
       end
     },
 
+    { 'numToStr/Comment.nvim' },
 
     -- LSP
     { 'neovim/nvim-lspconfig' },
