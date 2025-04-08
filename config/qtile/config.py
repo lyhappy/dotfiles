@@ -6,7 +6,7 @@ import subprocess
 
 from libqtile import qtile
 from libqtile import bar, hook, layout, widget
-from libqtile.config import Group, Key, Match, Screen, Drag, Click
+from libqtile.config import Group, Key, Match, Screen, Drag, Click, ScratchPad, DropDown
 
 from qtile_extras import widget
 from qtile_extras.widget.decorations import BorderDecoration
@@ -32,6 +32,9 @@ C_S = [ctl, "shift"]
 
 myTerm = "kitty"                             # My terminal of choice
 browser = "firefox"
+term_sbg_exec = f"kitty -c {home}/.config/kitty/kitty_bg_solid.conf -e "
+todo_file = f"{home}/Org/todo.org"
+todo_edit = f"nvim {todo_file}"
 
 def dmenu_run():
     qtile.cmd_spawn("dmenu_run -fn 'FiraCode-28' -p 'Run: '")
@@ -102,6 +105,9 @@ keys = [
     # Brightness
     Key([], "XF86MonBrightnessDown", lazy.spawn(home + "/.local/bin/brightnesscontrol down")),
     Key([], "XF86MonBrightnessUp", lazy.spawn(home + "/.local/bin/brightnesscontrol up")),
+
+    Key(C_S, "p", lazy.group['ps'].dropdown_toggle('process_mgr')),
+    Key(C_S, "t", lazy.group['todo'].dropdown_toggle('todo_list')),
 ]
 
 groups = [
@@ -112,6 +118,9 @@ groups = [
         Group("草稿", layout='monadtall', matches=[Match(wm_class="Zathura")]),
         Group("机房", layout='monadtall', matches=[Match(wm_class="VirtualBox Manager")]),
         Group("阳台", layout='floating', matches=[Match(wm_class="netease-cloud-music")]),
+        # scratchpad
+        ScratchPad("ps", [DropDown("process_mgr", term_sbg_exec + "htop", x=0.05, y=0.1, width=0.9, height = 0.8, opacity=1, on_focus_lost_hide=False)]),
+        ScratchPad("todo", [DropDown("todo_list", term_sbg_exec + todo_edit, x=0.2, y=0.1, width=0.6, height = 0.6, opacity=0.9, on_focus_lost_hide=False)]),
         ]
 for i, group in enumerate(groups, 1):
     keys.append(Key([mod], str(i), lazy.group[group.name].toscreen()))        # Switch to another group
