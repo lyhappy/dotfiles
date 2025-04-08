@@ -85,6 +85,8 @@ map('n', '<leader>gr', ':Gread<cr>')
 map('n', '<leader>gc', ':Git commit<cr>')
 map('n', '<leader>gl', ':Gclog<cr>')
 map('n', '<leader>gb', ':Git blame<cr>')
+map('n', '<leader>gs', ':Git<cr>')
+map('n', '<leader>gp', ':Git push<cr>')
 
 -- for comment.nvim
 require('Comment').setup()
