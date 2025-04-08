@@ -108,6 +108,8 @@ lazy.setup({
         'saadparwaiz1/cmp_luasnip',
       },
     },
-    { "catppuccin/nvim", name = "catppuccin", priority = 1000 }
+    { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+    { "itchyny/calendar.vim" },
+    { 'rcarriga/nvim-notify' }
   }
 })
