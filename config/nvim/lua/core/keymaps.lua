@@ -80,7 +80,7 @@ map('n', '<leader>z', ':TagbarToggle<CR>')          -- open/close
 -- Git
 -- for plugin tpope/vim-fugitive
 map('n', '<leader>gd', ':Gvdiffsplit<cr>')
-map('n', '<leader>gw', ':Gwriter<cr>')
+map('n', '<leader>gw', ':Gwrite<cr>')
 map('n', '<leader>gr', ':Gread<cr>')
 map('n', '<leader>gc', ':Git commit<cr>')
 map('n', '<leader>gl', ':Gclog<cr>')

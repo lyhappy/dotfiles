@@ -32,7 +32,7 @@ lazy.setup({
       priority = 100,
     },
     { 'tanvirtin/monokai.nvim', lazy = true },
-    { 'https://github.com/rose-pine/neovim', name = 'rose-pine', lazy = true },
+    { 'rose-pine/neovim', name = 'rose-pine', lazy = true },
 
     -- Icons
     { 'kyazdani42/nvim-web-devicons', lazy = true},
