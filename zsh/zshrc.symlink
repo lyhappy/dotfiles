@@ -3,7 +3,6 @@ export ZSH=$HOME/.oh-my-zsh
 export DOT_ZSH=$DOTFILES/zsh
 
 ZSH_THEME="robbyrussell"
-# ZSH_THEME="dracula"
 
 plugins=(git
     fzf
@@ -23,7 +22,7 @@ function proxy_off () {
     export ALL_PROXY=''
 }
 
-export PATH=$PATH:${HOME}/.local/bin:${HOME}/.supertools/:${HOME}/.config/vifm/scripts/:${HOME}/miniconda3/bin
+export PATH=$PATH:${HOME}/tools/dotfiles/bin:${HOME}/.local/bin:${HOME}/.supertools/:${HOME}/.config/vifm/scripts/:${HOME}/miniconda4/bin
 alias vim=nvim
 alias vi=/bin/vim
 
