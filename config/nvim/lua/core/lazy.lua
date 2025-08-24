@@ -35,10 +35,10 @@ lazy.setup({
     { 'rose-pine/neovim', name = 'rose-pine', lazy = true },
 
     -- Icons
-    { 'kyazdani42/nvim-web-devicons', lazy = true},
+    { 'nvim-tree/nvim-web-devicons', lazy = true},
 
     -- Dashboard ( start screen )
-    { 'goolord/alpha-nvim', dependencies = { 'kyazdani42/nvim-web-devicons' }, },
+    { 'goolord/alpha-nvim', dependencies = { 'nvim-tree/nvim-web-devicons' }, },
 
     -- Git labels
     {
@@ -46,7 +46,7 @@ lazy.setup({
       lazy = true,
       dependencies = {
         'nvim-lua/plenary.nvim',
-        'kyazdani42/nvim-web-devicons',
+        'nvim-tree/nvim-web-devicons',
       },
       config = function()
         require('gitsigns').setup{}
@@ -57,15 +57,20 @@ lazy.setup({
 
     -- File explorer
     {
-      'kyazdani42/nvim-tree.lua',
-      dependencies = { 'kyazdani42/nvim-web-devicons' },
+      'nvim-tree/nvim-tree.lua',
+      dependencies = { 'nvim-tree/nvim-web-devicons' },
+    },
+
+    {
+      'nvim-telescope/telescope.nvim',
+      dependencies = { 'nvim-lua/plenary.nvim'},
     },
 
     -- Statusline
     {
-      'freddiehaddad/feline.nvim',
+      'nvim-lualine/lualine.nvim',
       dependencies = {
-        'kyazdani42/nvim-web-devicons',
+        'nvim-tree/nvim-web-devicons',
         'lewis6991/gitsigns.nvim',
       },
     },
@@ -75,6 +80,7 @@ lazy.setup({
 
     -- Indent line
     { 'lukas-reineke/indent-blankline.nvim', main = 'ibl', opts = {} },
+    { 'norcalli/nvim-colorizer.lua'},
 
     -- Tag viewer
     { 'preservim/tagbar' },
@@ -110,6 +116,6 @@ lazy.setup({
     },
     { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
     { "itchyny/calendar.vim" },
-    { 'rcarriga/nvim-notify' }
+    -- { 'rcarriga/nvim-notify' }
   }
 })
