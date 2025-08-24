@@ -13,11 +13,17 @@ from qtile_extras.widget.decorations import BorderDecoration
 
 
 from libqtile.lazy import lazy
+from widgets.xueqiu_stock_ticker import XueQiuStockTicker
+
+
+from libqtile.log_utils import logger  # <- 用 Qtile 自带的 logger
 
 import colors
 
+from keybinding import bind_key
+from default_apps import HOME, TERM, LAUNCHER
+
 colors = colors.Nord
-home = os.path.expanduser('~')
 
 mod = "mod4"
 alt = "mod1"
@@ -25,6 +31,7 @@ ctl = "control"
 
 M = [mod]
 A_C = [alt, ctl]
+CR_A = [ctl, "mod5"]
 M_A = [mod, alt]
 M_C = [mod, ctl]
 M_S = [mod, "shift"]
@@ -32,81 +39,43 @@ C_S = [ctl, "shift"]
 
 myTerm = "kitty"                             # My terminal of choice
 browser = "firefox"
-term_sbg_exec = f"kitty -c {home}/.config/kitty/kitty_bg_solid.conf -e "
-todo_file = f"{home}/Org/todo.org"
+term_sbg_exec = f"kitty -c {HOME}/.config/kitty/kitty_bg_solid.conf -e "
+todo_file = f"{HOME}/Org/todo.org"
 todo_edit = f"nvim {todo_file}"
-
-def dmenu_run():
-    qtile.cmd_spawn("dmenu_run -fn 'FiraCode-28' -p 'Run: '")
 
 def open_calendar():
     qtile.cmd_spawn('kitty -e nvim -c "Calendar"') # nvim -c Calendar"')
 
-keys = [
-    ### The essentials
-    Key(M,   "Return",   lazy.spawn(myTerm),                     desc='Launches My Terminal'),
-    Key(M,   "Tab",      lazy.next_layout(),                     desc='Toggle through layouts'),
-    Key(M_S, "Return",   lazy.spawn("dmenu_run -fn 'FiraCode-28' -p 'Run: '"),     desc='Dmenu Run Launcher'),
-    Key(M,   "c",        lazy.window.kill(),                     desc='Kill active window'),
-    Key(M_S, "r",        lazy.restart(),                         desc='Restart Qtile'),
-    Key(M_S, "q",        lazy.shutdown(),                        desc='Shutdown Qtile'),
-    Key(C_S, "e",        lazy.spawn("emacs"),                    desc='Doom Emacs'),
-    Key(M_S, "c",        lazy.spawn("code --enable-proposed-api ms-toolsai.jupyter"),                    desc='vscode'),
-    ### Switch focus to specific monitor (out of three)
-    Key(M,   "w",        lazy.to_screen(0),                      desc='Keyboard focus to monitor 1'),
-    Key(M,   "e",        lazy.to_screen(1),                      desc='Keyboard focus to monitor 2'),
-    Key(M,   "z",        lazy.spawn("zathura"),                  desc='e-book viewer'),
-    Key(M,   "f",        lazy.spawn(myTerm + " -e ./.config/vifm/scripts/vifmrun"), desc='file explorer'),
-    Key(C_S, "l",        lazy.spawn("slock")),
-    ### Switch focus of monitors
-    Key(M,   "period",   lazy.next_screen(),                     desc='Move focus to next monitor'),
-    Key(M,   "comma",    lazy.prev_screen(),                     desc='Move focus to prev monitor'),
-    ### Treetab controls
-    Key(M_C, "k",        lazy.layout.section_up(),               desc='Move up a section in treetab'),
-    Key(M_C, "j",        lazy.layout.section_down(),             desc='Move down a section in treetab'),
-    ### Window controls
-    Key(M,   "k",        lazy.layout.up(),                     desc='Move focus down in current stack pane'),
-    Key(M,   "j",        lazy.layout.down(),                       desc='Move focus up in current stack pane'),
-    Key(M,   "n",        lazy.layout.normalize(),                desc='normalize window size ratios'),
-    Key(M,   "m",        lazy.layout.maximize(),                 desc='toggle window between minimum and maximum sizes'),
-    Key(M_S, "k",        lazy.layout.shuffle_down(),             desc='Move windows down in current stack'),
-    Key(M_S, "j",        lazy.layout.shuffle_up(),               desc='Move windows up in current stack'),
-    Key(M_S, "h",        lazy.layout.grow(), lazy.layout.increase_nmaster(), desc='Expand window (MonadTall), increase number in master pane (Tile)'),
-    Key(M_S, "l",        lazy.layout.shrink(), lazy.layout.decrease_nmaster(), desc='Shrink window (MonadTall), decrease number in master pane (Tile)'),
-    Key(M_S, "f",        lazy.window.toggle_floating(),          desc='toggle floating'),
-    Key(M_S, "m",        lazy.window.toggle_fullscreen(),        desc='toggle fullscreen'),
-    Key(M,   "p",        lazy.spawn(myTerm+" -e sh ./.xprofile"),             desc='xrandr for double monitors'),
-    ### Stack controls
-    Key(M,   "space",    lazy.layout.next(),                       desc='Switch window focus to other pane(s) of stack'),
-    Key(M_S, "space",    lazy.layout.rotate(), lazy.layout.flip(), desc='Switch which side main pane occupies (XmonadTall)'),
-    Key(M_C, "Return",   lazy.layout.toggle_split(),               desc='Toggle between split and unsplit sides of stack'),
-    ### Dmenu scripts launched with ALT + CTRL + KEY
-    Key(A_C, "e",        lazy.spawn("./.dmenu/dmenu-edit-configs.sh"),   desc='Dmenu script for editing config files'),
-    Key(A_C, "m",        lazy.spawn("./.dmenu/dmenu-sysmon.sh"),         desc='Dmenu system monitor script'),
-    Key(A_C, "r",        lazy.spawn("./.dmenu/dmenu-reddio.sh"),         desc='Dmenu reddio script'),
-    Key(A_C, "s",        lazy.spawn("./.dmenu/dmenu-sys-settings.sh"),        desc='Dmenu surfraw script'),
-    Key(A_C, "t",        lazy.spawn("./.dmenu/dmenu-trading.sh"),        desc='Dmenu trading programs script'),
-    Key(A_C, "i",        lazy.spawn("./.dmenu/dmenu-scrot.sh"),          desc='Dmenu scrot script'),
-    ### My applications launched with SUPER + ALT + KEY
-    Key(M,   "b",        lazy.spawn(browser),                                 desc='firefox browser'),
-    Key(M_A, "n",        lazy.spawn(myTerm+" -e newsboat"),                   desc='newsboat'),
-    Key(M_A, "m",        lazy.spawn(myTerm+" -e sh ./scripts/toot.sh"),       desc='toot mastodon cli'),
-    Key(M_A, "t",        lazy.spawn(myTerm+" -e sh ./scripts/tig-script.sh"), desc='tig'),
+_prev_group = None
+_curr_group = None
 
-    Key(M_S, "w",        lazy.spawn(home + "/.local/bin/WeChatLinux_x86_64.AppImage"),         desc='wechat'),
+@hook.subscribe.setgroup
+def save_last_group():
+    global _prev_group, _curr_group
+    new_group = qtile.current_group.name
 
-    # ------------ Hardware Configs ------------
-    # Volume
-    Key([], "XF86AudioMute", lazy.spawn(home + "/.local/bin/volumecontrol mute")),
-    Key([], "XF86AudioLowerVolume", lazy.spawn(home + "/.local/bin/volumecontrol down")),
-    Key([], "XF86AudioRaiseVolume", lazy.spawn(home + "/.local/bin/volumecontrol up")),
-    # Brightness
-    Key([], "XF86MonBrightnessDown", lazy.spawn(home + "/.local/bin/brightnesscontrol down")),
-    Key([], "XF86MonBrightnessUp", lazy.spawn(home + "/.local/bin/brightnesscontrol up")),
+    if new_group != _curr_group:
+        # logger.warning(f"Switch group: {_curr_group} -> {new_group}")
+        _prev_group, _curr_group = _curr_group, new_group
+
+def go_last_group(qtile):
+    global _prev_group, _curr_group
+    if _prev_group and _prev_group in qtile.groups_map:
+        # logger.warning(f"Go last group: {_curr_group} -> {_prev_group}")
+        qtile.groups_map[_prev_group].toscreen()
+    else:
+        logger.warning("No previous group yet")
+
+keys = bind_key() + [
+    # 切换到上一个 group
+    Key(M, "Left", lazy.screen.prev_group(), desc="Switch to previous group"),
+    # 切换到下一个 group
+    Key(M, "Right", lazy.screen.next_group(), desc="Switch to next group"),
+    Key([ctl], "Tab", lazy.function(go_last_group), desc="Go to last group"),
 
     Key(A_C, "p", lazy.group['ps'].dropdown_toggle('process_mgr')),
     Key(A_C, "t", lazy.group['todo'].dropdown_toggle('todo_list')),
-    Key(A_C, "c", lazy.group['calendar'].dropdown_toggle('calendar')),
+    #Key(M_S, "c", lazy.group['calendar'].dropdown_toggle('calendar')),
 ]
 
 groups = [
@@ -114,9 +83,9 @@ groups = [
         Group("车库", layout='monadtall', matches=[Match(wm_class="jetbrains-idea")]),
         Group("环球", layout='monadtall', matches=[Match(wm_class="firefox")]),
         Group("书房", layout='monadtall', matches=[Match(wm_class="obsidian")]),
-        Group("草稿", layout='monadtall', matches=[Match(wm_class="Zathura")]),
+        Group("股市", layout='bsp', matches=[Match(wm_class="Zathura")]),
         Group("机房", layout='monadtall', matches=[Match(wm_class="VirtualBox Manager")]),
-        Group("信使", layout='monadtall', matches=[Match(wm_class="wechat")]),
+        Group("信使", layout='treetab', matches=[Match(wm_class="wechat")]),
         Group("阳台", layout='floating', matches=[Match(wm_class="netease-cloud-music")]),
         ]
 
@@ -132,7 +101,7 @@ groups = groups + [
         ]
 
 layout_theme = {"border_width": 1,
-                "margin": 8,
+                "margin": 5,
                 "border_focus": "#5d6771",
                 "border_normal": "#292d3e"
                 }
@@ -160,18 +129,19 @@ layouts = [
             vspace = 3,
             panel_width = 240
             ),
+        layout.Matrix(columns=4, **layout_theme),
+        layout.Bsp(**layout_theme),
         layout.Floating()
         ]
 
 def split_bar(fs: int=18):
     return widget.TextBox(text = '|', font = "Ubuntu Mono", foreground = colors[1], padding = 2, fontsize = fs)
 
-
 def workspace_widgets(fontsize: int) -> list:
     return [
             widget.Image(
                 filename = "~/.config/qtile/icons/arch.ico",
-                mouse_callbacks = {'Button1': dmenu_run}
+                mouse_callbacks = {'Button1': lambda: qtile.spawn(LAUNCHER)}
                 ),
             widget.GroupBox(
                 fontsize = fontsize,
@@ -223,7 +193,7 @@ def sysinfo_widgets(fontsize: int) -> list:
 
             # CPU & GPU
             widget.CPU(
-                format = '▓  CPU: {load_percent}%',
+                format = '💻 CPU: {load_percent}%',
                 foreground = colors[4],
                 fontsize = fontsize,
                 decorations = [underline(colors[4])]
@@ -239,14 +209,14 @@ def sysinfo_widgets(fontsize: int) -> list:
                 ),
             widget.Spacer(length = 8),
             widget.ThermalSensor(
-                    format = '{tag}: {temp:.0f}{unit}',
-                    foreground = colors[4],
-                    tag_sensor = "GPU",
-                    threshold = 80,
-                    foreground_alert = 'ff0000',
-                    fontsize = fontsize,
-                    decorations = [ underline(colors[4]) ]
-                    ),
+                format = 'GPU: {temp:.0f}{unit}',
+                foreground = colors[6],
+                tag_sensor = "GPU",
+                threshold = 80,
+                foreground_alert = 'ff0000',
+                fontsize = fontsize,
+                decorations = [ underline(colors[6]) ]
+                ),
             widget.Spacer(length = 8),
 
             # memory
@@ -254,7 +224,7 @@ def sysinfo_widgets(fontsize: int) -> list:
                     foreground = colors[8],
                     mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e htop')},
                     format = '{MemUsed: .2f}{mm}',
-                    fmt = '🖥  Mem: {} used',
+                    fmt = 'Mem: {} used',
                     measure_mem = 'G',
                     fontsize = fontsize,
                     decorations = [underline(colors[8])]
@@ -268,7 +238,7 @@ def sysinfo_widgets(fontsize: int) -> list:
                     mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e df')},
                     partition = '/',
                     format = '{uf}{m} free',
-                    fmt = '🖴  Disk: {}',
+                    fmt = '🖴 Disk: {}',
                     visible_on_warn = False,
                     fontsize = fontsize,
                     decorations=[ underline(colors[5]) ],
@@ -278,7 +248,7 @@ def sysinfo_widgets(fontsize: int) -> list:
             # volume
             widget.Volume(
                     foreground = colors[7],
-                    fmt = '🕫  Vol: {}',
+                    fmt = '🎧 Vol: {}',
                     fontsize = fontsize,
                     decorations = [underline(colors[7])]
                     ),
@@ -317,7 +287,29 @@ def laptop_screen_bar(fontsize=18):
 
 # 4K monitor
 def large_screen_bar(fontsize=28):
-    widgets = workspace_widgets(fontsize) + layout_and_window_name(fontsize) + sysinfo_widgets(fontsize) + [
+    widgets = workspace_widgets(fontsize) + layout_and_window_name(fontsize) + [
+            XueQiuStockTicker(
+                symbol="xx",
+                show_change=True,
+                show_volume=False,
+                fontsize = fontsize,
+                update_interval=10,
+                foreground = colors[3],
+                decorations = [underline(colors[3])]
+            ),
+            split_bar(fontsize),
+            XueQiuStockTicker(
+                symbol="xx",
+                show_change=True,
+                show_volume=False,
+                fontsize = fontsize,
+                update_interval=10,
+                foreground = colors[4],
+                decorations = [underline(colors[4])]
+            ),
+
+            widget.Spacer(length = 8),
+
             widget.Clock(
                 foreground = colors[8],
                 format = "⏱  %a, %b %d - %H:%M:%S",
@@ -342,9 +334,15 @@ mouse = [
     Drag([mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()),
 ]
 
+# from libqtile.log_utils import logger
+
+# @lazy.function
+# def switch_groups(qtile, group_name):
+#     logger.info("group name: %s" % group_name)
+
+
 @hook.subscribe.startup_once
 def start_once():
-    home = os.path.expanduser('~')
-    subprocess.call([home + '/.config/qtile/autostart.sh'])
+    subprocess.call([HOME + '/.config/qtile/autostart.sh'])
 
 wmname = "LG3D"

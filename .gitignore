@@ -1,3 +1,7 @@
 
 
 config/fish/tools/proxy.fish
+
+__pycache__/
+
+*.sw*
