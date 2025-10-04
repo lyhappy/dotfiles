@@ -89,6 +89,18 @@ map('n', '<leader>gb', ':Git blame<cr>')
 map('n', '<leader>gs', ':Git<cr>')
 map('n', '<leader>gp', ':Git push<cr>')
 
+-- hop.nvim
+map('n', '<Leader><Leader>?', ':HopWord<CR>')
+map('n', '<Leader><Leader>f', ':HopChar1AC<CR>')
+map('n', '<Leader><Leader>F', ':HopChar1BC<CR>')
+map('n', '<Leader><Leader>c', ':HopChar2AC<CR>')
+map('n', '<Leader><Leader>C', ':HopChar2BC<CR>')
+map('n', '<Leader><Leader>w', ':HopWordAC<CR>')
+map('n', '<Leader><Leader>b', ':HopWordBC<CR>')
+map('n', '<Leader><Leader>l', ':HopLine<CR>')
+map('n', '<Leader><Leader>j', ':HopLineStartAC<CR>')
+map('n', '<Leader><Leader>k', ':HopLineStartBC<CR>')
+
 -- for comment.nvim
 require('Comment').setup()
 -- vim.keymap.set("n", "<C-_>", function() require('Comment.api').toggle.linewise.current() end, { noremap = true, silent = true })

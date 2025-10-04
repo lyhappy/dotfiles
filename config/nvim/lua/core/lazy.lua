@@ -117,6 +117,14 @@ lazy.setup({
       },
     },
     { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+    {
+      'smoka7/hop.nvim',
+      version = "*",
+      opts = {
+        keys = 'etovxqpdygfblzhckisuran'
+      }
+    },
+
     { "itchyny/calendar.vim" },
     -- { 'rcarriga/nvim-notify' }
   }
