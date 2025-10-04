@@ -27,12 +27,14 @@ lazy.setup({
   spec = {
     -- Colorscheme:
     {
-      'navarasu/onedark.nvim',
+      "folke/tokyonight.nvim",
       lazy = false,
       priority = 100,
+      opts = {},
     },
-    { 'tanvirtin/monokai.nvim', lazy = true },
-    { 'rose-pine/neovim', name = 'rose-pine', lazy = true },
+    { 'arcticicestudio/nord-vim'},
+    { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+    { 'rose-pine/neovim', name = 'rose-pine'},
 
     -- Icons
     { 'nvim-tree/nvim-web-devicons', lazy = true},
