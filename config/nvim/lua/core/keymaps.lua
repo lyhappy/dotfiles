@@ -106,7 +106,7 @@ require('Comment').setup()
 -- vim.keymap.set("n", "<C-_>", function() require('Comment.api').toggle.linewise.current() end, { noremap = true, silent = true })
 -- Toggle current line (linewise) using C-/
 local api = require('Comment.api')
-vim.keymap.set('n', '<C-_>', api.toggle.linewise.current)
+vim.keymap.set('n', '<C-c>', api.toggle.linewise.current)
 
 -- Toggle current line (blockwise) using C-\
 vim.keymap.set('n', '<C-\\>', api.toggle.blockwise.current)
@@ -116,7 +116,7 @@ local esc = vim.api.nvim_replace_termcodes(
 )
 
 -- Toggle selection (linewise)
-vim.keymap.set('x', '<C-_>', function()
+vim.keymap.set('x', '<C-c>', function()
     vim.api.nvim_feedkeys(esc, 'nx', false)
     api.toggle.linewise(vim.fn.visualmode())
 end)
