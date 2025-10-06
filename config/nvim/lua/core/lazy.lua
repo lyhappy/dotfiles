@@ -103,20 +103,51 @@ lazy.setup({
 
     -- Autocomplete
     {
-      'hrsh7th/nvim-cmp',
-      -- load cmp on InsertEnter
-      event = 'InsertEnter',
-      -- these dependencies will only be loaded when cmp loads
-      -- dependencies are always lazy-loaded unless specified otherwise
+      'saghen/blink.cmp',
       dependencies = {
-        'L3MON4D3/LuaSnip',
-        'hrsh7th/cmp-nvim-lsp',
-        'hrsh7th/cmp-path',
-        'hrsh7th/cmp-buffer',
-        'saadparwaiz1/cmp_luasnip',
+        'rafamadriz/friendly-snippets',
+        'Kaiser-Yang/blink-cmp-dictionary',
+        dependencies = { 'nvim-lua/plenary.nvim' }
       },
+      version = '1.*',
+
+      ---@module 'blink.cmp'
+      ---@type blink.cmp.Config
+      opts = {
+        -- 'default' (recommended) for mappings similar to built-in completions (C-y to accept)
+        -- 'super-tab' for mappings similar to vscode (tab to accept)
+        -- 'enter' for enter to accept
+        -- 'none' for no mappings
+        --
+        -- All presets have the following mappings:
+        -- C-space: Open menu or open docs if already open
+        -- C-n/C-p or Up/Down: Select next/previous item
+        -- C-e: Hide menu
+        -- C-k: Toggle signature help (if signature.enabled = true)
+        --
+        -- See :h blink-cmp-config-keymap for defining your own keymap
+        keymap = { preset = 'super-tab' },
+        appearance = {
+          nerd_font_variant = 'mono'
+        },
+        completion = { documentation = { auto_show = false } },
+        sources = {
+          default = {'lsp', 'dictionary', 'path', 'snippets', 'buffer'},
+          providers = {
+            dictionary = {
+              module = 'blink-cmp-dictionary',
+              name = 'Dict',
+              min_keyword_length = 3,
+              opts = {
+                dictionary_directories = { vim.fn.expand('~/.config/nvim/dictionary') },
+              }
+            }
+          }
+        },
+        fuzzy = { implementation = "prefer_rust_with_warning" }
+      },
+      opts_extend = { "sources.default" }
     },
-    { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
     {
       'smoka7/hop.nvim',
       version = "*",
