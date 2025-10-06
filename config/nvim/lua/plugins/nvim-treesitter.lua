@@ -23,5 +23,11 @@ nvim_treesitter.setup {
   highlight = {
     -- `false` will disable the whole extension
     enable = true,
+    additional_vim_regex_highlighting = false,
   },
+  -- 如果你也希望使用 treesitter 进行折叠，可以启用它
+  fold = {
+    enable = true,
+    disable = { "markdown" } -- 可选: 为某些语言禁用 treesitter 折叠
+  }
 }

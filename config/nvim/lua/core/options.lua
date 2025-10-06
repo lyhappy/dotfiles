@@ -50,6 +50,7 @@ opt.updatetime = 250        -- ms to wait for trigger an event
 
 -----------------------------------------------------------
 -- Startup
+vim.cmd([[ set nofoldenable]])
 -----------------------------------------------------------
 -- Disable nvim intro
 opt.shortmess:append "sI"
