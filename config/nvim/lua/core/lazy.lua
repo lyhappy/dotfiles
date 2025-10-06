@@ -83,6 +83,7 @@ lazy.setup({
     -- Indent line
     { 'lukas-reineke/indent-blankline.nvim', main = 'ibl', opts = {} },
     { 'norcalli/nvim-colorizer.lua'},
+    { 'hiphish/rainbow-delimiters.nvim'},
 
     -- Tag viewer
     { 'preservim/tagbar' },
